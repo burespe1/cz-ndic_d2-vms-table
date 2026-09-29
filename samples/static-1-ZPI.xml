@@ -1,0 +1,149 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Static VMS example in Prague, Wilsonova street with one pictogram (PDZ) and one text area (PIT) -->
+<!-- 
+ x=======x====================x     
+ x       x   PIT, line 1      x      
+ x  PDZ  x   PIT, line 2      x====x 
+ x       x   PIT, line 3      x    x 
+ x=======x====================x    x 
+ -->
+<d2:payload xmlns:vms="http://datex2.eu/schema/3/vms" xmlns:d2="http://datex2.eu/schema/3/d2Payload" xmlns:loc="http://datex2.eu/schema/3/locationReferencing" xmlns:com="http://datex2.eu/schema/3/common" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" modelBaseVersion="3" xsi:type="vms:VmsTablePublication" xsi:schemaLocation="http://datex2.eu/schema/3/d2Payload ../schema/DATEXII_3_D2Payload.xsd" lang="cs" profileName="cz-ndic_d2-vms-table" profileVersion="1.3">
+  <!-- tag::header[] -->
+  <com:feedType>x-source:cz-ndic_d2-vms-table-fixed-pull-v3</com:feedType>
+  <com:publicationTime>2021-12-22T10:45:00+01:00</com:publicationTime>
+  <com:publicationCreator>
+    <com:country>cz</com:country>
+    <com:nationalIdentifier>NDIC</com:nationalIdentifier>
+  </com:publicationCreator>
+  <!-- end::header[] -->
+  <vms:headerInformation>
+    <com:confidentiality>noRestriction</com:confidentiality>
+    <com:informationStatus>real</com:informationStatus>
+  </vms:headerInformation>
+  <!-- the name of the table could be anything, there could be more tables than 1 -->
+  <vms:vmsControllerTable id="CzechVmsTable-fixedVms" version="1">
+    <!-- NDIC is the publisher -->
+    <vms:informationManager>
+      <com:country>cz</com:country>
+      <com:nationalIdentifier>NDIC</com:nationalIdentifier>
+    </vms:informationManager>
+    <!-- one controller per portal/post -->
+    <!-- id of the controller is given the official labelling scheme ŘSD ČR PPK R120 -->
+    <vms:vmsController id="849619d2a1" version="1">
+      <!-- ZPI is always described as one vms -->
+      <!-- tag::controller[] -->
+      <vms:numberOfVms>1</vms:numberOfVms>
+      <!-- url to the **actual** picture of the whole (portal) structure -->
+      <vms:externalIdentifier>https://rsd.cz/cache/vms/849619d2a1</vms:externalIdentifier>
+      <!-- end::controller[] -->
+      <vms:vms vmsIndex="1">
+        <vms:vms>
+          <!-- the vms has embedded lanterns -->
+          <!-- tag::vms-props[] -->
+          <vms:lanternsPresent>true</vms:lanternsPresent>
+          <!-- Prague ZPI is owned by TSK Praha-->
+          <vms:owner>
+            <com:values>
+              <com:value lang="cs">TSK Praha</com:value>
+            </com:values>
+          </vms:owner>
+          <!-- half gantry (cantilever) - right side mounted-->
+          <vms:physicalSupport>roadsideCantileverMounted</vms:physicalSupport>
+          <vms:vmsType>simpleMatrixSign</vms:vmsType>
+          <!-- custom code list of vms types defined by NTIC -->
+          <vms:vmsTypeCode>variableInformationPanel</vms:vmsTypeCode>
+          <vms:dynamicallyConfigurable>false</vms:dynamicallyConfigurable>
+          <!-- gantry / cantilever standard height -->
+          <vms:heightAboveCarriageway>5.6</vms:heightAboveCarriageway>
+          <!-- end::vms-props[] -->
+          <!-- tag::config[] -->
+          <vms:vmsConfiguration>
+            <!-- 2 vms one PDZ (with supplementary info) and one PIT -->
+            <vms:numberOfDisplayAreas>2</vms:numberOfDisplayAreas>
+            <!-- PDZ Information -->
+            <vms:displayArea displayAreaIndex="1">
+              <vms:displayArea xsi:type="vms:PictogramDisplayArea">
+                <!-- position on the VMS-->
+                <vms:positionXAbsolute>onLeft</vms:positionXAbsolute>
+                <vms:positionYAbsolute>inTheMiddle</vms:positionYAbsolute>
+                <vms:pictogramCodeListIdentifier>cz-pictogram-code-list-v1.0</vms:pictogramCodeListIdentifier>
+                <vms:pictogramNumberOfColours>3</vms:pictogramNumberOfColours>
+              </vms:displayArea>
+            </vms:displayArea>
+            <!-- PIT Information -->
+            <vms:displayArea displayAreaIndex="2">
+              <vms:displayArea xsi:type="vms:TextDisplayArea">
+                <!-- position on the VMS-->
+                <vms:positionXRelativeToPrevious>toTheRight</vms:positionXRelativeToPrevious>
+                <vms:positionYAbsolute>inTheMiddle</vms:positionYAbsolute>
+                <vms:maxNumberOfRows>3</vms:maxNumberOfRows>
+                <vms:textCodeListIdentifier>cz-phrase-code-list-v1.0</vms:textCodeListIdentifier>
+              </vms:displayArea>
+            </vms:displayArea>
+          </vms:vmsConfiguration>
+          <!-- end::config[] -->
+          <!-- tag::location[] -->
+          <vms:vmsLocation xsi:type="loc:PointLocation">
+            <!-- ZPI located on Cantilever on right side, valid for whole road belt -->
+            <loc:supplementaryPositionalDescription>
+              <loc:positionOnCarriageway>inTheCentre</loc:positionOnCarriageway>
+              <loc:carriageway>
+                <loc:carriageway>mainCarriageway</loc:carriageway>
+                <loc:lane>
+                  <loc:laneUsage>allLanesCompleteCarriageway</loc:laneUsage>
+                </loc:lane>
+              </loc:carriageway>
+              <loc:roadInformation>
+                <loc:roadDestination>Praha 4</loc:roadDestination>
+                <loc:roadName>Wilsonova</loc:roadName>
+              </loc:roadInformation>
+            </loc:supplementaryPositionalDescription>
+            <!-- WGS84 coordinates (lat, lon) cente of the road belt, perpendicular to sign post -->
+            <loc:pointByCoordinates>
+              <loc:pointCoordinates>
+                <loc:latitude>50.082165</loc:latitude>
+                <loc:longitude>14.433932</loc:longitude>
+              </loc:pointCoordinates>
+            </loc:pointByCoordinates>
+
+            <!-- location by mileage posts from road start MANDATORY -->
+            <loc:pointAlongLinearElement>
+              <loc:directionRelativeAtPoint>aligned</loc:directionRelativeAtPoint>
+              <loc:linearElement>
+                <loc:roadName><com:values><com:value lang="cs">Wilsonova</com:value></com:values></loc:roadName>
+              </loc:linearElement>
+              <loc:distanceAlongLinearElement xsi:type="loc:DistanceFromLinearElementStart">
+                <loc:distanceAlong>325</loc:distanceAlong>
+              </loc:distanceAlongLinearElement>
+            </loc:pointAlongLinearElement>
+          
+            <!-- location by Global Network element percentage of the element OPTIONAL -->
+            <loc:pointAlongLinearElement>
+              <!-- always aligned on direction separated roads -->
+              <loc:directionRelativeAtPoint>aligned</loc:directionRelativeAtPoint>
+              <loc:linearElement xsi:type="loc:LinearElementByCode">
+                <!-- identification of the base data set GN -->
+                <loc:linearElementReferenceModel>CZ-RSD-GlobalNetwork</loc:linearElementReferenceModel>
+                <loc:linearElementReferenceModelVersion>21.06</loc:linearElementReferenceModelVersion>
+                <!-- GN element containing the location -->
+                <loc:linearElementIdentifier>1457896721</loc:linearElementIdentifier>
+              </loc:linearElement>
+              <!-- distance in meters from start of the GN element (not start of the road) -->
+              <loc:distanceAlongLinearElement xsi:type="loc:PercentageDistanceAlongLinearElement">
+                <loc:percentageDistanceAlong>61.5</loc:percentageDistanceAlong>
+              </loc:distanceAlongLinearElement>
+            </loc:pointAlongLinearElement>
+          </vms:vmsLocation>
+          <!-- end::location[] -->
+          <!-- url to the **actual** picture of the VMS, in this case SAME as for Controller -->
+          <!-- only 1 vms in a controller unit, picture same, url different -->
+          <!-- tag::image[] -->
+          <vms:imageLink>
+            <com:urlLinkAddress>https://rsd.cz/cache/vms/849619d2a1/01</com:urlLinkAddress>
+          </vms:imageLink>
+          <!-- end::image[] -->
+        </vms:vms>
+      </vms:vms>
+    </vms:vmsController>
+  </vms:vmsControllerTable>
+</d2:payload>

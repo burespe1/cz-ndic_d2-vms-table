@@ -1,0 +1,705 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<xs:schema elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns:loc="http://datex2.eu/schema/3/locationReferencing" version="3.7" targetNamespace="http://datex2.eu/schema/3/locationReferencing" xmlns:com="http://datex2.eu/schema/3/common" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import namespace="http://datex2.eu/schema/3/common" schemaLocation="DATEXII_3_Common.xsd" />
+  <xs:complexType name="_CarriagewayEnum">
+    <xs:simpleContent>
+      <xs:extension base="loc:CarriagewayEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_LaneEnum">
+    <xs:simpleContent>
+      <xs:extension base="loc:LaneEnum">
+        <xs:attribute name="_extendedValue" type="loc:_LaneEnumExtensionType" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:simpleType name="_LaneEnumExtensionType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="advisoryCycleLane" />
+      <xs:enumeration value="bridlePath" />
+      <xs:enumeration value="busAndCycleLane" />
+      <xs:enumeration value="footAndCyclePath" />
+      <xs:enumeration value="guidedBusWay" />
+      <xs:enumeration value="taxiLane" />
+      <xs:enumeration value="taxiRank" />
+      <xs:enumeration value="tollLane" />
+      <xs:enumeration value="trolleyBusLane" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="_LinearDirectionEnum">
+    <xs:simpleContent>
+      <xs:extension base="loc:LinearDirectionEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_OpenlrFormOfWayEnum">
+    <xs:simpleContent>
+      <xs:extension base="loc:OpenlrFormOfWayEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_OpenlrFunctionalRoadClassEnum">
+    <xs:simpleContent>
+      <xs:extension base="loc:OpenlrFunctionalRoadClassEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_OpenlrOrientationEnum">
+    <xs:simpleContent>
+      <xs:extension base="loc:OpenlrOrientationEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_OpenlrSideOfRoadEnum">
+    <xs:simpleContent>
+      <xs:extension base="loc:OpenlrSideOfRoadEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_RelativePositionOnCarriagewayEnum">
+    <xs:simpleContent>
+      <xs:extension base="loc:RelativePositionOnCarriagewayEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="Carriageway">
+    <xs:annotation>
+      <xs:documentation>Supplementary positional information which details carriageway and lane locations. Several instances may exist where the element being described extends over more than one carriageway.</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="carriageway" type="loc:_CarriagewayEnum" minOccurs="1" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>Indicates the section of carriageway to which the location relates.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="originalNumberOfLanes" type="com:Integer" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>Normal number of lanes, potentially available for moving traffic, before reduction due to situations. Hard shoulder should not be counted unless it is sometimes used operationally for moving traffic.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="lane" type="loc:Lane" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="_carriagewayExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="CarriagewayEnum">
+    <xs:annotation>
+      <xs:documentation>List of descriptors identifying specific carriageway details.</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="mainCarriageway">
+        <xs:annotation>
+          <xs:documentation>On the main carriageway.</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="DistanceAlongLinearElement" abstract="true">
+    <xs:annotation>
+      <xs:documentation>Distance of a point along a linear element either measured from the start node or a defined referent on that linear element, where the start node is relative to the element definition rather than the direction of traffic flow.</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="_distanceAlongLinearElementExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="DistanceFromLinearElementStart">
+    <xs:annotation>
+      <xs:documentation>Distance of a point along a linear element measured from the start node of the linear element, where start node is relative to the element definition rather than the direction of traffic flow.</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="loc:DistanceAlongLinearElement">
+        <xs:sequence>
+          <xs:element name="distanceAlong" type="com:MetresAsFloat" minOccurs="1" maxOccurs="1">
+            <xs:annotation>
+              <xs:documentation>A measure of distance along a linear element.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="_distanceFromLinearElementStartExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="Lane">
+    <xs:annotation>
+      <xs:documentation>Indicates a specific lane or group of lanes.</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="laneNumber" type="com:Integer" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>The number of the lane, where 1 is nearest the hard shoulder/verge and the numbers increase towards the central reservation/road centreline including the lane on the centreline in case of an odd number of lanes for a single carriageway road.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="laneUsage" type="loc:_LaneEnum" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>Indicates the specific lane to which the location relates.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="_laneExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="LaneEnum">
+    <xs:annotation>
+      <xs:documentation>List of descriptors identifying specific lanes.</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="allLanesCompleteCarriageway">
+        <xs:annotation>
+          <xs:documentation>In all lanes of the carriageway.</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="LinearDirectionEnum">
+    <xs:annotation>
+      <xs:documentation>Directions of traffic flow relative to the direction in which the linear element is defined.</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="opposite">
+        <xs:annotation>
+          <xs:documentation>Indicates that the direction of traffic flow affected by the situation or related to the traffic data is in the opposite sense to the direction in which the linear element is defined.</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="aligned">
+        <xs:annotation>
+          <xs:documentation>Indicates that the direction of traffic flow affected by the situation or related to the traffic data is in the same sense as the direction in which the linear element is defined.</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="LinearElement">
+    <xs:annotation>
+      <xs:documentation>A linear element along a single linear object, consistent with EN ISO 19148 definitions. </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="roadName" type="com:MultilingualString" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>Name of the road</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="roadNumber" type="com:String" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>Identifier/number of the road</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="linearElementReferenceModel" type="com:String" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>The identifier of a road network reference model which segments the road network according to specific business rules.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="linearElementReferenceModelVersion" type="com:String" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>The version of the identified road network reference model.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="_linearElementExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="LinearElementByCode">
+    <xs:annotation>
+      <xs:documentation>A linear element along a single linear object defined by its identifier or code in a road network reference model (specified in LinearElement class) which segments the road network according to specific business rules.</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="loc:LinearElement">
+        <xs:sequence>
+          <xs:element name="linearElementIdentifier" type="com:String" minOccurs="1" maxOccurs="1">
+            <xs:annotation>
+              <xs:documentation>An identifier or code of a linear element (or link) in the road network reference model that is specified in the LinearElement class. </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="_linearElementByCodeExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="Location" abstract="true">
+    <xs:annotation>
+      <xs:documentation>The specification of a location either on a network (as a point or a linear location) or as an area. This may be provided in one or more referencing systems.</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="loc:LocationReference">
+        <xs:sequence>
+          <xs:element name="_locationExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="LocationReference" abstract="true">
+    <xs:annotation>
+      <xs:documentation>Represents one or more physically separate locations. Multiple locations may be related, as in an itinerary or route, or may be unrelated. One LocationReference should not use multiple Location objects to represent the same physical location.</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="_locationReferenceExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="NetworkLocation" abstract="true">
+    <xs:annotation>
+      <xs:documentation>The specification of a location on a network (as a point or a linear location).</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="loc:Location">
+        <xs:sequence>
+          <xs:element name="supplementaryPositionalDescription" type="loc:SupplementaryPositionalDescription" />
+          <xs:element name="_networkLocationExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="OpenlrBasePointLocation" abstract="true">
+    <xs:annotation>
+      <xs:documentation>Holds common data that are used both in OpenlrPointAccessPoint and OpenlrPointAlongLine.</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="loc:OpenlrPointLocationReference">
+        <xs:sequence>
+          <xs:element name="openlrSideOfRoad" type="loc:_OpenlrSideOfRoadEnum" minOccurs="1" maxOccurs="1">
+            <xs:annotation>
+              <xs:documentation>Provides the of road where the corresponding point lies.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="openlrOrientation" type="loc:_OpenlrOrientationEnum" minOccurs="1" maxOccurs="1">
+            <xs:annotation>
+              <xs:documentation>Orientation of the driving direction in relation with the direction of the underlying linear</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="openlrLocationReferencePoint" type="loc:OpenlrLocationReferencePoint">
+            <xs:annotation>
+              <xs:documentation>Allows defining the first point of the OpenLR path</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="openlrLastLocationReferencePoint" type="loc:OpenlrLastLocationReferencePoint">
+            <xs:annotation>
+              <xs:documentation>Allows defining the last point of the OpenLR path</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="_openlrBasePointLocationExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="OpenlrBaseReferencePoint" abstract="true">
+    <xs:annotation>
+      <xs:documentation>Base class used to hold data about a reference point.</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="openlrCoordinates" type="loc:PointCoordinates">
+        <xs:annotation>
+          <xs:documentation>Provides coordinates for the base point of the OpenLR path</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="openlrLineAttributes" type="loc:OpenlrLineAttributes">
+        <xs:annotation>
+          <xs:documentation>Properties of the line towards the topologically adjacent OpenLR location referencing point, on the shortest path to that point.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="_openlrBaseReferencePointExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="OpenlrFormOfWayEnum">
+    <xs:annotation>
+      <xs:documentation>Enumeration of for of way</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="undefined">
+        <xs:annotation>
+          <xs:documentation>Undefined</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="motorway">
+        <xs:annotation>
+          <xs:documentation>Motorway</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="multipleCarriageway">
+        <xs:annotation>
+          <xs:documentation>Multiple carriageway</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="singleCarriageway">
+        <xs:annotation>
+          <xs:documentation>Single carriageway</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="roundabout">
+        <xs:annotation>
+          <xs:documentation>Roundabout</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="slipRoad">
+        <xs:annotation>
+          <xs:documentation>Slip road</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="trafficSquare">
+        <xs:annotation>
+          <xs:documentation>Traffic square</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="other">
+        <xs:annotation>
+          <xs:documentation>Other</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="OpenlrFunctionalRoadClassEnum">
+    <xs:annotation>
+      <xs:documentation>Enumeration of functional road class</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="frc0">
+        <xs:annotation>
+          <xs:documentation>Main road, highest importance</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="frc1">
+        <xs:annotation>
+          <xs:documentation>First class road</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="frc2">
+        <xs:annotation>
+          <xs:documentation>Second class road</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="frc3">
+        <xs:annotation>
+          <xs:documentation>Third class road</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="frc4">
+        <xs:annotation>
+          <xs:documentation>Fourth class road</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="frc5">
+        <xs:annotation>
+          <xs:documentation>Fifth class road</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="frc6">
+        <xs:annotation>
+          <xs:documentation>Sixth class road</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="frc7">
+        <xs:annotation>
+          <xs:documentation>Other class road, lowest importance</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="OpenlrGeoCoordinate">
+    <xs:annotation>
+      <xs:documentation>A geo-coordinate pair is a position in a map defined by its longitude and latitude coordinate values.</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="loc:OpenlrPointLocationReference">
+        <xs:sequence>
+          <xs:element name="openlrCoordinates" type="loc:PointCoordinates">
+            <xs:annotation>
+              <xs:documentation>Corresponding coordinates of an OpenLR point defined by its only coordinates.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="_openlrGeoCoordinateExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="OpenlrLastLocationReferencePoint">
+    <xs:annotation>
+      <xs:documentation>The sequence of location reference points is terminated by a last location reference point.</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="loc:OpenlrBaseReferencePoint">
+        <xs:sequence>
+          <xs:element name="_openlrLastLocationReferencePointExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="OpenlrLineAttributes">
+    <xs:annotation>
+      <xs:documentation>Line attributes are part of a location reference point and consists of functional road class (FRC),form of way (FOW) and bearing (BEAR) data.</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="openlrFunctionalRoadClass" type="loc:_OpenlrFunctionalRoadClassEnum" minOccurs="1" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>Certain aspects of the physical form that a Road Element takes. It is based on a number of certain physical and traffic properties. (EN ISO 14825 § 7.2.85)</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="openlrFormOfWay" type="loc:_OpenlrFormOfWayEnum" minOccurs="1" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>A classification based on the importance of the role that the Road Element (or Ferry Connection) performs in the connectivity of the total road network. (EN ISO 14825 § 7.2.88)</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="openlrBearing" type="com:AngleInDegrees" minOccurs="1" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>defines the bearing field as an integer value between 0 and 359</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="_openlrLineAttributesExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="OpenlrLocationReferencePoint">
+    <xs:annotation>
+      <xs:documentation>The basis of a location reference is a sequence of location reference points (LRPs).</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="loc:OpenlrBaseReferencePoint">
+        <xs:sequence>
+          <xs:element name="openlrPathAttributes" type="loc:OpenlrPathAttributes">
+            <xs:annotation>
+              <xs:documentation>Additional path attributes relative to the next point</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="_openlrLocationReferencePointExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:simpleType name="OpenlrOrientationEnum">
+    <xs:annotation>
+      <xs:documentation>Enumeration of orientation</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="noOrientationOrUnknown">
+        <xs:annotation>
+          <xs:documentation>No orientation or unknown</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="withLineDirection">
+        <xs:annotation>
+          <xs:documentation>With line direction</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="againstLineDirection">
+        <xs:annotation>
+          <xs:documentation>Against line direction</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="both">
+        <xs:annotation>
+          <xs:documentation>Both directions</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="OpenlrPathAttributes">
+    <xs:annotation>
+      <xs:documentation>Properties of the path from the associated location reference point to the next location reference point, which are specified to assist correct identification of the point in an external map data source.</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="openlrLowestFrcToNextLRPoint" type="loc:_OpenlrFunctionalRoadClassEnum" minOccurs="1" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>The lowest FRC to the next point indicates the lowest functional road class used in the location reference path to the next LR-point.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="openlrDistanceToNextLRPoint" type="com:NonNegativeInteger" minOccurs="1" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>The DNP attribute measures the distance in meters between two consecutive location reference-points along the location reference path described in the corresponding enumeration</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="_openlrPathAttributesExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="OpenlrPointAlongLine">
+    <xs:annotation>
+      <xs:documentation>Point along a line</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="loc:OpenlrBasePointLocation">
+        <xs:sequence>
+          <xs:element name="_openlrPointAlongLineExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="OpenlrPointLocationReference" abstract="true">
+    <xs:annotation>
+      <xs:documentation>A point location is a zero-dimensional element in a map that specifies a geometric location.</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="_openlrPointLocationReferenceExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="OpenlrSideOfRoadEnum">
+    <xs:annotation>
+      <xs:documentation>Enumeration of side of road</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="onRoadOrUnknown">
+        <xs:annotation>
+          <xs:documentation>On road or unknown</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="right">
+        <xs:annotation>
+          <xs:documentation>On the right side of the road.</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="left">
+        <xs:annotation>
+          <xs:documentation>On the left side of the road.</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="both">
+        <xs:annotation>
+          <xs:documentation>On both sides of the road.</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="PercentageDistanceAlongLinearElement">
+    <xs:annotation>
+      <xs:documentation>Distance of a point along a linear element measured from the start node expressed as a percentage of the whole length of the linear element, where start node is relative to the element definition rather than the direction of traffic flow.</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="loc:DistanceAlongLinearElement">
+        <xs:sequence>
+          <xs:element name="percentageDistanceAlong" type="com:Percentage" minOccurs="1" maxOccurs="1">
+            <xs:annotation>
+              <xs:documentation>A measure of distance along a linear element from the start of the element expressed as a percentage of the total length of the linear object. The value 0 represents the starting point of the linear element; 100 represents the end.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="_percentageDistanceAlongLinearElementExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="PointAlongLinearElement">
+    <xs:annotation>
+      <xs:documentation>A point on a linear element where the linear element is either a part of or the whole of a linear object (i.e. a road), consistent with EN ISO 19148 definitions. </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="directionRelativeAtPoint" type="loc:_LinearDirectionEnum" minOccurs="1" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>The direction of traffic flow at the specified point relative to the direction in which the linear element is defined.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="linearElement" type="loc:LinearElement" />
+      <xs:element name="distanceAlongLinearElement" type="loc:DistanceAlongLinearElement" />
+      <xs:element name="_pointAlongLinearElementExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PointByCoordinates">
+    <xs:annotation>
+      <xs:documentation>A single point defined only by a coordinate set with an optional bearing direction.</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="pointCoordinates" type="loc:PointCoordinates" />
+      <xs:element name="_pointByCoordinatesExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PointCoordinates">
+    <xs:annotation>
+      <xs:documentation>A pair of planar coordinates defining the geodetic position of a single point using the European Terrestrial Reference System 1989 (ETRS89).</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="latitude" type="com:Float" minOccurs="1" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>Latitude in decimal degrees using the European Terrestrial Reference System 1989 (ETRS89).</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="longitude" type="com:Float" minOccurs="1" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>Longitude in decimal degrees using the European Terrestrial Reference System 1989 (ETRS89).</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="_pointCoordinatesExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PointLocation">
+    <xs:annotation>
+      <xs:documentation>Location representing a single geospatial point.</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="loc:NetworkLocation">
+        <xs:sequence>
+          <xs:element name="pointByCoordinates" type="loc:PointByCoordinates" />
+          <xs:element name="pointAlongLinearElement" type="loc:PointAlongLinearElement" maxOccurs="unbounded" />
+          <xs:element name="openlrPointLocationReference" type="loc:OpenlrPointLocationReference" minOccurs="0" />
+          <xs:element name="_pointLocationExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:simpleType name="RelativePositionOnCarriagewayEnum">
+    <xs:annotation>
+      <xs:documentation>Identifies a relative position across a carriageway</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="inTheCentre">
+        <xs:annotation>
+          <xs:documentation>In the centre of the roadway.</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="onTheLeft">
+        <xs:annotation>
+          <xs:documentation>On the left of the roadway.</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="onTheRight">
+        <xs:annotation>
+          <xs:documentation>On the right of the roadway.</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="RoadInformation">
+    <xs:annotation>
+      <xs:documentation>Information on a road</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="roadDestination" type="com:String" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>A destination associated with this road.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="roadName" type="com:String" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>The name of the road</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="roadNumber" type="com:String" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>The road number designated by the road authority</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="_roadInformationExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="SupplementaryPositionalDescription">
+    <xs:annotation>
+      <xs:documentation>A collection of supplementary positional information which improves the precision of the location.</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="positionOnCarriageway" type="loc:_RelativePositionOnCarriagewayEnum" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>Relative position across carriageway</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="carriageway" type="loc:Carriageway" maxOccurs="unbounded" />
+      <xs:element name="roadInformation" type="loc:RoadInformation" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>Information on a set of one or more roads. The location could correspond to a part of the road identified, the whole stretch of road identified, or a combination of multiple road sections.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="_supplementaryPositionalDescriptionExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

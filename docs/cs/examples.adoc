@@ -1,0 +1,119 @@
+== Příklady konfigurace značek
+
+Tato příloha popisuje příklady proměnného dopravního značení (VMS) ve statické publikaci. Ke každému
+příkladu je obrázek s vyznačením popisovaných částí a jejich indexů, popis základního konceptu a vzorek.
+Odpovídající dynamické publikace (vzorky `dynamic-…`) popisuje dokumentace formátu `cz-ndic_d2-vms-status`.
+
+Vzorky jsou součástí balíčku specifikace `{schema-uri}.zip` (adresář `samples`). Všechny jsou validní vůči
+schématu DATEX II 3.7 a odpovídají výběru profilu (`.sel`).
+
+=== Informační (polo)portál se ZPI
+
+Poloportál s jedním zařízením pro provozní informace (PDZ a PIT).
+
+image::ex-02.png[Poloportál se ZPI,width=600]
+
+* `VmsController` (identifikace): 1×
+* `Vms` (`roadsideCantileverMounted`): 1× dynamická značka na poloportálu pro celý jízdní pás [vms:1]
+* `DisplayArea`: [vms:1] 1× typu piktogram (s implicitní doplňkovou tabulkou) a 1× typu text
+
+.static-1-ZPI.xml
+[%collapsible]
+====
+[source,xml]
+----
+include::{samplesdir}/static-1-ZPI.xml[tags=**]
+----
+====
+
+=== Portál liniového řízení
+
+Portál liniového řízení se dvěma PDZ na sloupech podél pozemní komunikace a třemi PDZ pro liniové řízení
+nad komunikací.
+
+image::ex-04.png[Portál liniového řízení,width=600]
+
+* `VmsController` (identifikace): 1×
+* `Vms` (`gantryMounted`):
+** 2× proměnná značka vlevo a vpravo na sloupku pro celý jízdní pás [vms:1,5]
+** 2× dynamická značka na portálu pro řízení v jízdních pruzích [vms:2,4]
+** 1× dynamická značka na portálu pro celý jízdní pás [vms:3]
+* `DisplayArea`: [vms:1,5] 1× typu piktogram; [vms:2,3,4] 1× typu piktogram (s implicitní doplňkovou
+  tabulkou)
+
+.static-2-LM.xml
+[%collapsible]
+====
+[source,xml]
+----
+include::{samplesdir}/static-2-LM.xml[tags=**]
+----
+====
+
+=== ZPI teploměr
+
+Proměnná značka podél pozemní komunikace zobrazující teplotu vzduchu a vozovky.
+
+image::ex-05.png[ZPI teploměr,width=600]
+
+* `VmsController` (identifikace): 1×
+* `Vms` (`roadsideMounted`, `vmsTypeCode` = `temperature`): 1× dynamická značka vpravo [vms:1]
+* `DisplayArea`: [vms:1] 1× typu text se 2 řádky (teplota okolí, teplota vozovky)
+
+.static-3-meteo.xml
+[%collapsible]
+====
+[source,xml]
+----
+include::{samplesdir}/static-3-meteo.xml[tags=**]
+----
+====
+
+=== Značka s obsazeností parkoviště
+
+Proměnná značka podél pozemní komunikace zobrazující počet volných míst na parkovišti.
+
+image:ex-06.png[Značka s obsazeností parkoviště,width=400]
+image:ex-07.png[Detail značky,width=140]
+
+* `VmsController` (identifikace): 1×
+* `Vms` (`roadsideMounted`, `vmsTypeCode` = `parking`): 1× dynamická značka [vms:1]
+* `DisplayArea`: [vms:1] 1× typu text s 1–2 řádky (bližší a vzdálenější parkoviště)
+
+.static-4-parking.xml
+[%collapsible]
+====
+[source,xml]
+----
+include::{samplesdir}/static-4-parking.xml[tags=**]
+----
+====
+
+.static-4-parking_full.xml
+[%collapsible]
+====
+[source,xml]
+----
+include::{samplesdir}/static-4-parking_full.xml[tags=**]
+----
+====
+
+=== Mobilní vozík
+
+Mobilní VMS na vozíku umístěném na krajnici. Poloha vozíku se uvádí v dynamické publikaci.
+
+image:ex-08.png[Mobilní vozík,width=180]
+image:ex-09.png[Konfigurace vozíku,width=360]
+
+* `VmsController` (identifikace): 1×, tabulka `CzechVmsTable-mobileVms`
+* `Vms` (`trailerMounted`): 1× dynamická značka na vozíku [vms:1]
+* `DisplayArea`: [vms:1] 2× typu piktogram (s implicitní doplňkovou tabulkou)
+
+.static-5-trailer.xml
+[%collapsible]
+====
+[source,xml]
+----
+include::{samplesdir}/static-5-trailer.xml[tags=**]
+----
+====

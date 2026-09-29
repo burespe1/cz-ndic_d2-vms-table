@@ -1,0 +1,171 @@
+# Ruční texty k tabulkám elementů – JEDINÝ ručně psaný vstup tabulek.
+# Třída:
+#   _: úvodní věta tabulky
+#   element:
+#     note: popis
+#     card: '1..1'   # pravidlo NDIC nad rámec schématu (tmavě modře)
+#     required: true # NDIC vždy vyplňuje
+#     values: {literal: překlad}
+# _enum: {Enum.literal: překlad} – přepisuje sdílený slovník kitu
+# Převzato z dokumentace cz-ndic_d2-vms-table-v1.1 (tabulky elementů), upraveno pro DATEX II 3.7.
+
+VmsTablePublication:
+  feedType:
+    note: Odkaz na zdroj dat v registru národního přístupového bodu (https://registr.dopravniinfo.cz/),
+      např. `x-source:cz-ndic_d2-vms-table-fixed-pull-v3`. Formát určují atributy `profileName`
+      a `profileVersion`.
+  publicationTime:
+    note: Čas vytvoření obsahu publikace; nezměnil-li se obsah, zůstává původní.
+  publicationCreator:
+    note: 'Poskytovatel publikace: `country` = `cz`, `nationalIdentifier` = zkratka poskytovatele (NDIC).'
+  headerInformation:
+    note: Vždy `confidentiality` = `noRestriction` a `informationStatus` = `real`.
+  vmsControllerTable:
+    card: 1..n
+    note: Tabulky řadičů rozdělené podle typu (viz `@id` tabulky).
+VmsControllerTable:
+  vmsControllerTableIdentification:
+    note: Informace o aktualizaci tabulky, mění se při každé změně tabulky (např. datum).
+  informationManager:
+    note: 'Tvůrce obsahu publikace: `country` = `cz`, `nationalIdentifier` = NDIC.'
+  vmsController:
+    note: Jeden řadič – portál s liniovým řízením či ZPI, mobilní vozík či proměnná značka podél pozemní
+      komunikace. Identifikátor `@id` je jedinečný, `@version` se zvyšuje s každou změnou uvnitř řadiče.
+VmsController:
+  numberOfVms:
+    card: 1..1
+    note: Počet fyzických VMS na portálu, sloupku…
+  externalIdentifier:
+    card: 1..1
+    note: URL obrázku základní konfigurace řadiče s vyznačenými plochami (VMS a zobrazovací plochy)
+      a všemi neměnnými částmi značky důležitými pro její pochopení.
+  vms:
+    note: Jedna VMS s jednou či více zobrazovacími plochami; `@vmsIndex` od 1, číslováno zleva doprava
+      a shora dolů.
+Vms:
+  lanternsPresent:
+    card: 1..1
+    note: '`true`, jsou-li přítomny oddělené blikače či je pro ně vyhrazena část matice VMS.'
+  owner:
+    note: Vlastník značky (např. ŘSD ČR, TSK Praha).
+  physicalSupport:
+    card: 1..1
+    note: Umístění značky.
+    values:
+      roadsideMounted: podél pozemní komunikace na sloupku
+      roadsideCantileverMounted: na poloportálu
+      gantryMounted: na portálu
+      trailerMounted: na vozíku
+      centralReservationMounted: ve středním dělicím pásu
+      overheadBridgeMounted: na křižujícím mostě
+      tunnelEntranceMounted: na vjezdu do tunelu
+      vehicleMounted: na vozidle
+  vmsType:
+    card: 1..1
+    note: Typ zobrazovače.
+    values:
+      fullMatrixSign: plně programovatelná matice
+      monochromeGraphic: jednobarevný displej (teplota, parkování)
+      simpleMatrixSign: standardní VMS s předdefinovanými možnostmi
+      other: plechové značky
+  vmsTypeCode:
+    card: 1..1
+    note: 'Rozlišení značek NDIC: `mobileVariableMesageSign` (PDZ a PIT na vozíku), `variableInformationPanel`
+      (výstražná PDZ 0–2 a PIT), `variableMesageSign` (PDZ s doplňkovým panelem), `variableDirectionSign`
+      (proměnná spojitá směrová značka), `temperature` (PIT se dvěma řádky o teplotě), `parking` (PIT
+      s obsazeností parkovišť), `metalSign` (neproměnná značka).'
+  dynamicallyConfigurable:
+    card: 1..1
+    note: '`true`, je-li plocha VMS dynamicky konfigurovatelná – jen u `fullMatrixSign`, jinak `false`.'
+  heightAboveCarriageway:
+    note: Výška nad vozovkou v metrech u značek na portálu nad komunikací, jinak se vynechá.
+  dedicatedUsage:
+    note: 'Jen je-li značka vyhrazena: `laneControlSystem` (zákazové a příkazové značky na portálu),
+      `parkingInformation` (navigace na parkoviště), `tunnelManagement` (řízení tunelu a v tunelu).'
+  vmsConfiguration:
+    note: Konfigurace zobrazovacích ploch VMS.
+  vmsLocation:
+    note: Poloha VMS (`loc:PointLocation`) včetně doplňkového popisu – souřadnice, staničení, Global Network,
+      volitelně OpenLR. U vozíků se neuvádí (lze uvést polohu depa).
+  imageLink:
+    card: 1..1
+    note: URL aktuálního zobrazení VMS včetně všech zobrazovacích ploch a doplňkových tabulí.
+VmsConfiguration:
+  numberOfDisplayAreas:
+    card: 1..1
+    note: Počet aktivních zobrazovacích ploch VMS.
+  displayArea:
+    note: Zobrazovací plocha typu `vms:PictogramDisplayArea` nebo `vms:TextDisplayArea`; `@displayAreaIndex`
+      od 1, shora dolů a zleva doprava.
+DisplayArea:
+  positionXAbsolute:
+    note: Vodorovná poloha vůči okraji VMS (`onLeft`, `inTheMiddle`, `onRight`).
+  positionYAbsolute:
+    note: Svislá poloha vůči okraji VMS (`atTop`, `inTheMiddle`, `atBottom`).
+  positionXRelativeToPrevious:
+    note: Vodorovná poloha vůči předchozí ploše (`toTheRight`).
+  positionYRelativeToPrevious:
+    note: Svislá poloha vůči předchozí ploše (`alignedOnTheBottomSide`).
+TextDisplayArea:
+  maxNumberOfRows:
+    card: 1..1
+    note: Počet řádků PIT.
+  textCodeListIdentifier:
+    note: Identifikátor tabulky kódovaných frází zobrazovaných na PIT (např. `cz-phrase-code-list-v1.0`);
+      ne všechny fráze musí mít kódovaný význam.
+PictogramDisplayArea:
+  pictogramCodeListIdentifier:
+    note: Identifikátor tabulky kódovaných piktogramů (např. `cz-pictogram-code-list-v1.0`) – zpravidla
+      mapování významu dopravních značek do DATEX II s doplňkovými informacemi.
+  pictogramNumberOfColours:
+    note: Počet barev, např. `3` u `simpleMatrixSign` (červená – okraj, bílá – symbol, oranžová – blikače,
+      černé pozadí).
+PointLocation:
+  pointByCoordinates:
+    card: 1..1
+    note: Souřadnice WGS-84.
+  pointAlongLinearElement:
+    card: 1..2
+    note: 'Poloha podél komunikace: staničení (číslo komunikace `roadNumber`, vzdálenost od počátku v metrech)
+      a nepovinně Global Network (`CZ-RSD-GlobalNetwork`, vzdálenost od počátku úseku v procentech 0–100).'
+  openlrPointLocationReference:
+    note: Nepovinný popis pomocí OpenLR.
+NetworkLocation:
+  supplementaryPositionalDescription:
+    card: 1..1
+    note: Doplňkový popis polohy VMS na úrovni jízdního pruhu včetně názvu a směru silnice.
+SupplementaryPositionalDescription:
+  positionOnCarriageway:
+    card: 1..1
+    note: 'Umístění VMS na konstrukci: `onTheLeft` (na sloupu vlevo po směru jízdy), `inTheCentre` (na příčníku
+      nad vozovkou, i poloportál), `onTheRight` (na sloupu vpravo po směru jízdy).'
+  carriageway:
+    card: 1..1
+    note: Jízdní pás a pruh, pro který VMS platí.
+  roadInformation:
+    card: 1..1
+    note: Směr (`roadDestination`), název (`roadName`) a číslo (`roadNumber`) komunikace, na které VMS leží.
+Carriageway:
+  carriageway:
+    note: Vždy `mainCarriageway`.
+  originalNumberOfLanes:
+    note: Původní počet jízdních pruhů, je-li znám.
+  lane:
+    note: '`laneNumber` (1 = první pruh zprava, 0 = zpevněná krajnice), řídí-li VMS jízdní pruh, nebo
+      `laneUsage` = `allLanesCompleteCarriageway`, platí-li pro celý jízdní pás.'
+PointCoordinates:
+  latitude:
+    note: Zeměpisná šířka WGS-84 na průsečíku středu jízdního pásu a kolmice ke konstrukci VMS.
+  longitude:
+    note: Zeměpisná délka WGS-84.
+PointAlongLinearElement:
+  directionRelativeAtPoint:
+    note: Směr vůči staničení či kódování úseku Global Network (`aligned`, `opposite`).
+  linearElement:
+    note: 'Staničení: `LinearElement` s `roadNumber` (u místních komunikací `roadName`); Global Network:
+      `LinearElementByCode` s modelem `CZ-RSD-GlobalNetwork`, verzí sítě a identifikátorem úseku.'
+  distanceAlongLinearElement:
+    note: '`DistanceFromLinearElementStart` (metry od počátku staničení) nebo `PercentageDistanceAlongLinearElement`
+      (procenta délky úseku Global Network od jeho počátku, 0–100).'
+
+_enum: {}

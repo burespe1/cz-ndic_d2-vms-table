@@ -1,0 +1,8 @@
+== Historie změn dokumentace
+
+// Revize dokumentace (MAJOR.MINOR.REVIZE). Změny formátu viz CHANGELOG.adoc ve specifikaci.
+=== 1.3.0
+
+* Nová dokumentace formátu `cz-ndic_d2-vms-table` verze 1.3 (DATEX II 3.7); nahrazuje dokumentaci formátu cz-ndic_d2-vms-table-v1.1 (DATEX II 3.3).
+* Změny v obsahu oproti verzi 1.1:
+** Síť se dříve označovala `GlobalNetwork` a staničení jako `LinearElementByCode` s modelem `mileage`; nově `linearElementReferenceModel` = `CZ-RSD-GlobalNetwork` a staničení číslem komunikace (`roadNumber`) – shodně se situačními formáty.

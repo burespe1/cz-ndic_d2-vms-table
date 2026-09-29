@@ -1,0 +1,438 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<xs:schema elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns:vms="http://datex2.eu/schema/3/vms" version="3.7" targetNamespace="http://datex2.eu/schema/3/vms" xmlns:com="http://datex2.eu/schema/3/common" xmlns:loc="http://datex2.eu/schema/3/locationReferencing" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import namespace="http://datex2.eu/schema/3/locationReferencing" schemaLocation="DATEXII_3_LocationReferencing.xsd" />
+  <xs:import namespace="http://datex2.eu/schema/3/common" schemaLocation="DATEXII_3_Common.xsd" />
+  <xs:complexType name="_DedicatedUsageEnum">
+    <xs:simpleContent>
+      <xs:extension base="vms:DedicatedUsageEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_PhysicalSupportEnum">
+    <xs:simpleContent>
+      <xs:extension base="vms:PhysicalSupportEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_PositionXAbsoluteEnum">
+    <xs:simpleContent>
+      <xs:extension base="vms:PositionXAbsoluteEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_PositionXRelativeEnum">
+    <xs:simpleContent>
+      <xs:extension base="vms:PositionXRelativeEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_PositionYAbsoluteEnum">
+    <xs:simpleContent>
+      <xs:extension base="vms:PositionYAbsoluteEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_PositionYRelativeEnum">
+    <xs:simpleContent>
+      <xs:extension base="vms:PositionYRelativeEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_VmsConfigurationDisplayAreaIndexDisplayArea">
+    <xs:sequence>
+      <xs:element name="displayArea" type="vms:DisplayArea" minOccurs="1" maxOccurs="1" />
+    </xs:sequence>
+    <xs:attribute name="displayAreaIndex" type="xs:int" use="required" />
+  </xs:complexType>
+  <xs:complexType name="_VmsControllerVmsIndexVms">
+    <xs:sequence>
+      <xs:element name="vms" type="vms:Vms" minOccurs="1" maxOccurs="1" />
+    </xs:sequence>
+    <xs:attribute name="vmsIndex" type="xs:int" use="required" />
+  </xs:complexType>
+  <xs:complexType name="_VmsTypeEnum">
+    <xs:simpleContent>
+      <xs:extension base="vms:VmsTypeEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:simpleType name="DedicatedUsageEnum">
+    <xs:annotation>
+      <xs:documentation>Type of usage for which a VMS is dedicated</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="laneControlSystem">
+        <xs:annotation>
+          <xs:documentation>Dedicated to the purpose of lane control</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="parkingInformation">
+        <xs:annotation>
+          <xs:documentation>Dedicated to displaying parking information</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="tunnelManagement">
+        <xs:annotation>
+          <xs:documentation>Dedicated to tunnel management</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="DisplayArea">
+    <xs:annotation>
+      <xs:documentation>Configuration (static or dynamic) of a display area.</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="positionXAbsolute" type="vms:_PositionXAbsoluteEnum" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>The horizontal position of the area in which the pictogram is displayed, i.e. at the left, or right of the VMS display.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="positionXRelativeToPrevious" type="vms:_PositionXRelativeEnum" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>The horizontal position of the area in which the pictogram is displayed relative to the previous display in the collection (e.g. to the left, to the right ....).</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="positionYAbsolute" type="vms:_PositionYAbsoluteEnum" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>The vertical position of the area in which the area is displayed, i.e. at the top or bottom of the VMS display.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="positionYRelativeToPrevious" type="vms:_PositionYRelativeEnum" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>The horizontal position of the area in which the pictogram is displayed relative to the previous display area in the collection (i.e.above or below).</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="_displayAreaExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="PhysicalSupportEnum">
+    <xs:annotation>
+      <xs:documentation>The ways in which equipments such as VMS are mounted or deployed on the road.</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="centralReservationMounted">
+        <xs:annotation>
+          <xs:documentation>Equipment mounted in the central reservation.</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="gantryMounted">
+        <xs:annotation>
+          <xs:documentation>Equipment mounted on an overhead gantry across the carriageway.</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="overheadBridgeMounted">
+        <xs:annotation>
+          <xs:documentation>Equipment mounted overhead on a bridge structure.</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="roadsideCantileverMounted">
+        <xs:annotation>
+          <xs:documentation>Equipment mounted on a cantilever from the roadside.</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="roadsideMounted">
+        <xs:annotation>
+          <xs:documentation>Equipment mounted at the roadside.</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="trailerMounted">
+        <xs:annotation>
+          <xs:documentation>Equipment mounted on a movable trailer.</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="tunnelEntranceMounted">
+        <xs:annotation>
+          <xs:documentation>Equipment mounted on the entrance to a tunnel.</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="vehicleMounted">
+        <xs:annotation>
+          <xs:documentation>Equipment mounted on a vehicle.</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="PictogramDisplayArea">
+    <xs:annotation>
+      <xs:documentation>Characteristics specific to a pictogram display area on the VMS.</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="vms:DisplayArea">
+        <xs:sequence>
+          <xs:element name="pictogramCodeListIdentifier" type="com:String" minOccurs="0" maxOccurs="1">
+            <xs:annotation>
+              <xs:documentation>Indicates which pictogram code list is referenced. This may be ISO 14823 or a custom list.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="pictogramNumberOfColours" type="com:NonNegativeInteger" minOccurs="0" maxOccurs="1">
+            <xs:annotation>
+              <xs:documentation>The number of colours the pictogram display area is capable of rendering.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="_pictogramDisplayAreaExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:simpleType name="PositionXAbsoluteEnum">
+    <xs:annotation>
+      <xs:documentation>Absolute horizontal positions of an item within an assigned space.</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="onLeft">
+        <xs:annotation>
+          <xs:documentation>On the left of the assigned space.</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="inTheMiddle">
+        <xs:annotation>
+          <xs:documentation>In the middle of the assigned space.</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="onRight">
+        <xs:annotation>
+          <xs:documentation>On the right of the assigned space.</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="PositionXRelativeEnum">
+    <xs:annotation>
+      <xs:documentation>Relative horizontal positions of one item to another.</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="toTheRight">
+        <xs:annotation>
+          <xs:documentation>Positioned to the right of relative item.</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="PositionYAbsoluteEnum">
+    <xs:annotation>
+      <xs:documentation>Absolute verticals positions of an item within an assigned space.</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="atTop">
+        <xs:annotation>
+          <xs:documentation>At the top of the assigned space.</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="inTheMiddle">
+        <xs:annotation>
+          <xs:documentation>In the middle of the assigned space.</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="atBottom">
+        <xs:annotation>
+          <xs:documentation>At the bottom of the assigned space.</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="PositionYRelativeEnum">
+    <xs:annotation>
+      <xs:documentation>Relative vertical positions of one item to another.</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="alignedOnTheBottomSide">
+        <xs:annotation>
+          <xs:documentation>The bottom side of the area is aligned on the bottom side of the relative area.</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="TextDisplayArea">
+    <xs:annotation>
+      <xs:documentation>Characteristics specific to the textual display area on the VMS.</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="vms:DisplayArea">
+        <xs:sequence>
+          <xs:element name="maxNumberOfRows" type="com:NonNegativeInteger" minOccurs="1" maxOccurs="1">
+            <xs:annotation>
+              <xs:documentation>Maximum number of rows of displayable characters in the textual display area of the VMS.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="textCodeListIdentifier" type="com:String" minOccurs="0" maxOccurs="1">
+            <xs:annotation>
+              <xs:documentation>Indicates which textual message code list is referenced. This may be specific to the VMS type defined by vmsTypeCode.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="_textDisplayAreaExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="Vms">
+    <xs:annotation>
+      <xs:documentation>Variable message sign - a display panel used to display one or more messages (text, symbols, pictograms or combinations) that can be changed or switched on or off as required</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="lanternsPresent" type="com:Boolean" minOccurs="1" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>Indicates whether the VMS is equipped with flashing lights (called lanterns in some countries) outside the text or pictogram display areas</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="owner" type="com:MultilingualString" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>Owner (authority or organisation) of the VMS. This may not be the same as the authority or organisation which is currently controlling the VMS.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="physicalSupport" type="vms:_PhysicalSupportEnum" minOccurs="1" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>Description of how the VMS is physically mounted or deployed on the road.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="vmsType" type="vms:_VmsTypeEnum" minOccurs="1" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>Broad classification of the type of variable message sign.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="vmsTypeCode" type="com:String" minOccurs="1" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>Specification of the type of VMS defined by a code, normally country or even manufacturer specific (e.g. MS4).</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="dynamicallyConfigurable" type="com:Boolean" minOccurs="1" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>Identifies (when True) that the VMS has a display area that may be dynamically configured to display different combinations of text and pictogram areas. The current configuration will normally be given with each published current VMS setting.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="heightAboveCarriageway" type="com:MetresAsFloat" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>Height in metres of the mounted sign above the carriageway, measured to the bottom of the display area.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="dedicatedUsage" type="vms:_DedicatedUsageEnum" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>Type of usage to which this VMS is dedicated</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="vmsConfiguration" type="vms:VmsConfiguration" />
+      <xs:element name="vmsLocation" type="loc:Location" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>The physical point location at which the variable message sign is situated. For mobile VMS which are regularly moved this need not be provided. Instead the VMS location should be provided in the VmsPublication along with current settings.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="imageLink" type="com:UrlLink" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>A URL reference from where an image of the VMS can be obtained.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="_vmsExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="VmsConfiguration">
+    <xs:annotation>
+      <xs:documentation>Describes the current configuration and characteristics of a VMS, whether it is statically or dynamically configured.</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="numberOfDisplayAreas" type="com:NonNegativeInteger" minOccurs="1" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>Number of display areas which the VMS contains.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="displayArea" type="vms:_VmsConfigurationDisplayAreaIndexDisplayArea" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="_vmsConfigurationExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="VmsController">
+    <xs:annotation>
+      <xs:documentation>A roadside unit which can control one or more variable message signs on a single gantry or mounting or on closely associated gantries or mountings.</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="numberOfVms" type="com:NonNegativeInteger" minOccurs="1" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>Number of variable message signs controlled by the unit.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="externalIdentifier" type="com:String" minOccurs="1" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>Identification of a VMS controller unit used by the supplier or consumer systems.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="vms" type="vms:_VmsControllerVmsIndexVms" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="_vmsControllerExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:string" use="required" />
+    <xs:attribute name="version" type="xs:string" use="required" />
+  </xs:complexType>
+  <xs:complexType name="VmsControllerTable">
+    <xs:annotation>
+      <xs:documentation>A versioned VMS controller unit table comprising a number of data records, each record defining the characteristics of a specific deployed variable message sign controller unit.</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="vmsControllerTableIdentification" type="com:String" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>An alphanumeric identification for the VMS controller unit table, possibly human readable. </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="informationManager" type="com:InternationalIdentifier" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>Organisation that manages the information content (is responsible for updates of this information) typically the organisation that first made the DATEX II publication of this content.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="vmsController" type="vms:VmsController" maxOccurs="unbounded" />
+      <xs:element name="_vmsControllerTableExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:string" use="required" />
+    <xs:attribute name="version" type="xs:string" use="required" />
+  </xs:complexType>
+  <xs:complexType name="VmsTablePublication">
+    <xs:annotation>
+      <xs:documentation>A publication containing one or more VMS controller unit tables each comprising a set of records which hold details of VMS controller units.</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="com:PayloadPublication">
+        <xs:sequence>
+          <xs:element name="headerInformation" type="com:HeaderInformation" />
+          <xs:element name="vmsControllerTable" type="vms:VmsControllerTable" maxOccurs="unbounded" />
+          <xs:element name="_vmsTablePublicationExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:simpleType name="VmsTypeEnum">
+    <xs:annotation>
+      <xs:documentation>Type of variable message sign.</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="monochromeGraphic">
+        <xs:annotation>
+          <xs:documentation>A monochrome graphic display.</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="simpleMatrixSign">
+        <xs:annotation>
+          <xs:documentation>Simple display made up of a fixed matrix of pixels (e.g. sets of LEDs or lights) capable of showing a limited set of aspects (or matrix images). The display area is regarded as a pictogram area in DATEX II. </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="fullMatrixSign">
+        <xs:annotation>
+          <xs:documentation>A full-matrix sign.</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="other">
+        <xs:annotation>
+          <xs:documentation>Other than as defined in this enumeration.</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>
