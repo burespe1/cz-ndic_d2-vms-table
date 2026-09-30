@@ -4,8 +4,7 @@ Tato příloha popisuje příklady proměnného dopravního značení (VMS) ve s
 příkladu je obrázek s vyznačením popisovaných částí a jejich indexů, popis základního konceptu a vzorek.
 Odpovídající dynamické publikace (vzorky `dynamic-…`) popisuje dokumentace formátu `cz-ndic_d2-vms-status`.
 
-Vzorky jsou součástí balíčku specifikace `{schema-uri}.zip` (adresář `samples`). Všechny jsou validní vůči
-schématu DATEX II 3.7 a odpovídají výběru profilu (`.sel`).
+Vzorky jsou součástí balíčku specifikace `{schema-uri}.zip` (adresář `samples`).
 
 === Informační (polo)portál se ZPI
 
