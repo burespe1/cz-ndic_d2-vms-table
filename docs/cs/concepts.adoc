@@ -85,6 +85,8 @@ Statická publikace má následující strukturu:
 [source,xml]
 ----
 include::{samplesdir}/static-1-ZPI.xml[tag=controller,indent=0]
+  ...
+</vms:vmsController>
 ----
 
 === Typy popisovaných značek

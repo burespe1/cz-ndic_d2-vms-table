@@ -29,9 +29,9 @@
     </vms:informationManager>
     <!-- one controller per portal/post -->
     <!-- id of the controller is given the official labelling scheme ŘSD ČR PPK R120 -->
+    <!-- tag::controller[] -->
     <vms:vmsController id="849619d2a1" version="1">
       <!-- ZPI is always described as one vms -->
-      <!-- tag::controller[] -->
       <vms:numberOfVms>1</vms:numberOfVms>
       <!-- url to the **actual** picture of the whole (portal) structure -->
       <vms:externalIdentifier>https://rsd.cz/cache/vms/849619d2a1</vms:externalIdentifier>
