@@ -8,16 +8,12 @@ a řízení provozu. Profil má statickou a dynamickou část:
 * dynamická část (formát `cz-ndic_d2-vms-status`) popisuje právě zobrazované informace na jednotlivých
   značkách, u mobilních vozíků včetně změny konfigurace zobrazovací plochy a polohy vozíku.
 
-Formát vychází z DATEX II publikace `VmsTablePublication` <<EN16157-4>>. Oproti verzi 1.1 (DATEX II 3.3) se
-struktura nemění – výběr profilu je přenesen do modelu 3.7 beze změny tříd, prvků, kardinalit i hodnot
-výčtů a data zůstávají platná. Mění se identifikace formátu a zdroje v hlavičce a pravidlo pro
-`publicationTime`.
+Formát vychází z DATEX II publikace `VmsTablePublication` <<EN16157-4>>. Používá model DATEX II 3.7.
 
 [[obalka]]
 === Obálka a hlavička publikace
 
-Každá zpráva je dokument DATEX II 3 s kořenovým elementem `d2:payload`. Obálky `d2LogicalModel`
-a `exchange` z verze 2 se již nepoužívají. Atribut `xsi:type` kořenového elementu určuje typ
+Každá zpráva je dokument DATEX II 3 s kořenovým elementem `d2:payload`. Atribut `xsi:type` kořenového elementu určuje typ
 publikace (zde `vms:VmsTablePublication`), atribut `modelBaseVersion="3"` verzi modelu a atribut `lang` výchozí jazyk
 textů.
 
@@ -105,7 +101,7 @@ Pro třídění se na úrovni VMS rozlišují typy dopravních značek voliteln�
 |`metalSign` |jakákoli neproměnná značka (i směrová, informační, zákazová…); může být i součástí proměnných portálů
 |===
 
-Kódy jsou převzaty z verze 1.1 beze změny, včetně historického zápisu „Mesage“.
+Hodnota `variableMesageSign` se zapisuje s historickým pravopisem „Mesage“.
 
 .Vlastnosti VMS (vzorek `static-1-ZPI.xml`)
 [source,xml]

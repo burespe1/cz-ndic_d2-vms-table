@@ -76,7 +76,7 @@ image::vmt-image2.png[Struktura identifikátorů,width=600,align="center"]
 === Odkazy na grafické zobrazení
 
 Statická publikace odkazuje na obrázky jednotlivých VMS elementem `Vms/imageLink` a na obrázek celého
-řadiče (portálu) elementem `VmsController/externalIdentifier` (koncept převzatý z profilu ASFINAG). Odkazy
+řadiče (portálu) elementem `VmsController/externalIdentifier`. Odkazy
 mají strukturu `baseUrl/customUrl/vms/vmsControllerId/vmsId/displayAreaId`.
 
 ==== Grafické zobrazení řadiče

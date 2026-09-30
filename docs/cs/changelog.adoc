@@ -3,6 +3,15 @@
 // Revize dokumentace (MAJOR.MINOR.REVIZE). Změny formátu viz CHANGELOG.adoc ve specifikaci.
 === 1.3.0
 
-* Nová dokumentace formátu `cz-ndic_d2-vms-table` verze 1.3 (DATEX II 3.7); nahrazuje dokumentaci formátu cz-ndic_d2-vms-table-v1.1 (DATEX II 3.3).
-* Změny v obsahu oproti verzi 1.1:
-** Síť se dříve označovala `GlobalNetwork` a staničení jako `LinearElementByCode` s modelem `mileage`; nově `linearElementReferenceModel` = `CZ-RSD-GlobalNetwork` a staničení číslem komunikace (`roadNumber`) – shodně se situačními formáty.
+* Nová dokumentace formátu `cz-ndic_d2-vms-table` verze 1.3 (DATEX II 3.7); nahrazuje dokumentaci formátu
+  cz-ndic_d2-vms-table-v1.1 (DATEX II 3.3).
+* Změny oproti verzi 1.1 (DATEX II 3.3):
+** Struktura se nemění – výběr profilu je přenesen do modelu 3.7 beze změny tříd, prvků, kardinalit
+   i hodnot výčtů a data zůstávají platná. Mění se identifikace formátu a zdroje v hlavičce a pravidlo
+   pro `publicationTime`.
+** Síť se dříve označovala `GlobalNetwork` a staničení jako `LinearElementByCode` s modelem `mileage`; nově
+   `linearElementReferenceModel` = `CZ-RSD-GlobalNetwork` a staničení číslem komunikace (`roadNumber`) –
+   shodně se situačními formáty.
+** Kódy typů VMS jsou převzaty z verze 1.1 beze změny (včetně zápisu `variableMesageSign`).
+* Původ řešení: odkaz na obrázek celého řadiče (`VmsController/externalIdentifier`) je koncept převzatý
+  z profilu ASFINAG.
