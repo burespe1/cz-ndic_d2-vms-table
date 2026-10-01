@@ -6,8 +6,8 @@ languages:
 - cs
 - en
 cs:
-  perex: 'Statický popis proměnných dopravních značek: umístění, typ, konfigurace.'
+  perex: 'Tento dokument popisuje datový formát, používaný pro poskytování statického popisu proměnného dopravního značení (VMS) podél komunikací – pevných značek, portálů a mobilních vozíků: polohy, typu a konfigurace zobrazovacích ploch a jejich platnosti vůči jízdním pruhům. Na tabulku značek se odkazují zprávy formátu cz-ndic_d2-vms-status s aktuálně zobrazeným obsahem. Formát vychází z publikace VmsTablePublication modelu DATEX II 3.7.'
   keywords: DATEX II, NDIC, VmsTablePublication
 en:
-  perex: 'Static description of variable message signs: location, type, configuration.'
+  perex: 'This document describes the data format used to provide the static description of variable message signs (VMS) along roads – fixed signs, gantries and mobile trailers: location, type and configuration of the display areas and their validity for traffic lanes. Messages of the format cz-ndic_d2-vms-status with the currently displayed content reference this table of signs. The format is based on the VmsTablePublication of the DATEX II 3.7 model.'
   keywords: DATEX II, NDIC, VmsTablePublication
