@@ -1,87 +1,67 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<!-- Mobile trailer at the Road Works (stationary per roadworks duration) 
-  with 1, 2 pictograms or fully programmable matrix display
--->
-<!-- 
- x=======x
- x  PDZ  x
- x+++++++x
- x  PDZ  x
- xx=====xx
-  x     x
- -->
-<d2:payload xmlns:vms="http://datex2.eu/schema/3/vms" xmlns:d2="http://datex2.eu/schema/3/d2Payload" xmlns:loc="http://datex2.eu/schema/3/locationReferencing" xmlns:com="http://datex2.eu/schema/3/common" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" modelBaseVersion="3" xsi:type="vms:VmsTablePublication" xsi:schemaLocation="http://datex2.eu/schema/3/d2Payload ../schema/DATEXII_3_D2Payload.xsd" lang="cs" profileName="cz-ndic_d2-vms-table" profileVersion="1.3">
+<d2:payload xmlns:d2="http://datex2.eu/schema/3/d2Payload" xmlns:vms="http://datex2.eu/schema/3/vms" xmlns:loc="http://datex2.eu/schema/3/locationReferencing" xmlns:com="http://datex2.eu/schema/3/common" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="vms:VmsTablePublication" lang="cs" modelBaseVersion="3" profileName="cz-ndic_d2-vms-table" profileVersion="1.3">
+  <!-- tag::header[] -->
   <com:feedType>x-source:cz-ndic_d2-vms-table-mobile-pull-v3</com:feedType>
-  <com:publicationTime>2021-12-22T10:45:00+01:00</com:publicationTime>
+  <com:publicationTime>2026-09-03T12:05:23+02:00</com:publicationTime>
   <com:publicationCreator>
     <com:country>cz</com:country>
     <com:nationalIdentifier>NDIC</com:nationalIdentifier>
   </com:publicationCreator>
+  <!-- end::header[] -->
   <vms:headerInformation>
     <com:confidentiality>noRestriction</com:confidentiality>
     <com:informationStatus>real</com:informationStatus>
   </vms:headerInformation>
-  <!-- table specific to mobile VMS - more volatile due to change of locations -->
-  <vms:vmsControllerTable id="CzechVmsTable-mobileVms" version="1">
-    <!-- NDIC is the publisher -->
+  <vms:vmsControllerTable id="CzechVmsTable-mobileVms" version="260601">
     <vms:informationManager>
       <com:country>cz</com:country>
       <com:nationalIdentifier>NDIC</com:nationalIdentifier>
     </vms:informationManager>
-    <!-- one controller per mobile unit / trailer -->
-    <!-- id is given by mobile unit / trailer id -->
-    <!-- version changes with new location of the trailer -->
-    <!-- version changes with new configuration of the trailer -->
-    <!-- id ... FM full matrix, SM: simple matrix sign -->
-    <vms:vmsController id="an6qirhubg" version="1">
-      <!-- mobile unit is always described as one vms -->
+    <vms:vmsController id="63F8AFE2-8AC2-403A-BBE9-BB0A6A729AA2" version="260601">
       <vms:numberOfVms>1</vms:numberOfVms>
-      <!-- url to the **actual** picture of the whole mobile unit (with static graphic) -->
-      <vms:externalIdentifier>https://rsd.cz/cache/vms/an6qirhubg</vms:externalIdentifier>
+      <vms:externalIdentifier>https://mobilitydata.rsd.cz/VMS/63F8AFE2-8AC2-403A-BBE9-BB0A6A729AA2</vms:externalIdentifier>
       <vms:vms vmsIndex="1">
         <vms:vms>
-          <!-- the vms has embedded lanterns -->
           <vms:lanternsPresent>true</vms:lanternsPresent>
-          <!-- mobile telematics owned by e.g. ELTODO -->
           <vms:owner>
             <com:values>
-              <com:value lang="cs">ELTODO a.s.</com:value>
+              <com:value lang="cs">RSD</com:value>
             </com:values>
           </vms:owner>
-          <!-- trailer mounted - right side mounted-->
           <vms:physicalSupport>trailerMounted</vms:physicalSupport>
           <vms:vmsType>fullMatrixSign</vms:vmsType>
-          <!-- custom code list of vms types defined by NTIC -->
-          <vms:vmsTypeCode>mobileVariableMesageSign</vms:vmsTypeCode>
+          <vms:vmsTypeCode>mobileVariableMessageSign</vms:vmsTypeCode>
           <vms:dynamicallyConfigurable>true</vms:dynamicallyConfigurable>
+          <!-- tag::config[] -->
           <vms:vmsConfiguration>
-            <!-- ACTUAL SIGN COMPOSITION ON THE UNIT -->
-            <!-- 2 vms one PDZ (with supplementary info) and one PIT -->
-            <vms:numberOfDisplayAreas>2</vms:numberOfDisplayAreas>
-            <!-- PDZ Information e.g.: warning -->
+            <vms:numberOfDisplayAreas>3</vms:numberOfDisplayAreas>
             <vms:displayArea displayAreaIndex="1">
-              <vms:displayArea xsi:type="vms:PictogramDisplayArea">
-                <!-- position on the VMS-->
+              <vms:displayArea xsi:type="vms:TextDisplayArea">
                 <vms:positionXAbsolute>inTheMiddle</vms:positionXAbsolute>
                 <vms:positionYAbsolute>atTop</vms:positionYAbsolute>
-                <vms:pictogramCodeListIdentifier>cz-pictogram-code-list-v1.0</vms:pictogramCodeListIdentifier>
+                <vms:maxNumberOfRows>1</vms:maxNumberOfRows>
+                <vms:textCodeListIdentifier>cz-phrase-code-list-v1.0</vms:textCodeListIdentifier>
               </vms:displayArea>
             </vms:displayArea>
-            <!-- PDZ Information e.g.: speed -->
             <vms:displayArea displayAreaIndex="2">
               <vms:displayArea xsi:type="vms:PictogramDisplayArea">
-                <!-- position on the VMS-->
+                <vms:positionXAbsolute>inTheMiddle</vms:positionXAbsolute>
+                <vms:positionYAbsolute>atTop</vms:positionYAbsolute>
+                <vms:pictogramCodeListIdentifier>cz-pictogram-code-list-v1.1</vms:pictogramCodeListIdentifier>
+              </vms:displayArea>
+            </vms:displayArea>
+            <vms:displayArea displayAreaIndex="3">
+              <vms:displayArea xsi:type="vms:TextDisplayArea">
+                <vms:positionXAbsolute>inTheMiddle</vms:positionXAbsolute>
                 <vms:positionYRelativeToPrevious>alignedOnTheBottomSide</vms:positionYRelativeToPrevious>
-                <vms:pictogramCodeListIdentifier>cz-pictogram-code-list-v1.0</vms:pictogramCodeListIdentifier>
+                <vms:maxNumberOfRows>4</vms:maxNumberOfRows>
+                <vms:textCodeListIdentifier>cz-phrase-code-list-v1.0</vms:textCodeListIdentifier>
               </vms:displayArea>
             </vms:displayArea>
           </vms:vmsConfiguration>
-          <!-- ACTUAL LOCATION OF THE UNIT SPECIFIED IN DYNAMIC PUBLICATION
-          <vms:vmsLocation xsi:type="loc:PointLocation"/> -->
-          <!-- url to the **actual** picture of the VMS, in this case SAME as for Controller -->
-          <!-- only 1 vms in a controller unit, picture same, url different -->
+          <!-- end::config[] -->
           <vms:imageLink>
-            <com:urlLinkAddress>https://rsd.cz/cache/vms/an6qirhubg/01</com:urlLinkAddress>
+            <com:urlLinkAddress>https://mobilitydata.rsd.cz/VMS/63F8AFE2-8AC2-403A-BBE9-BB0A6A729AA2/1</com:urlLinkAddress>
           </vms:imageLink>
         </vms:vms>
       </vms:vms>

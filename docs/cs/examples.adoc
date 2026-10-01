@@ -8,13 +8,16 @@ Vzorky jsou součástí balíčku specifikace `{schema-uri}.zip` (adresář `sam
 
 === Informační (polo)portál se ZPI
 
-Poloportál s jedním zařízením pro provozní informace (PDZ a PIT).
+Skutečný řadič z tabulky NDIC (30. 9. 2026): poloportál TSK v ulici Wilsonova (Praha) se zařízením pro
+provozní informace – PDZ a PIT se třemi řádky.
 
 image::ex-02.png[Poloportál se ZPI,width=600]
 
-* `VmsController` (identifikace): 1×
-* `Vms` (`roadsideCantileverMounted`): 1× dynamická značka na poloportálu pro celý jízdní pás [vms:1]
-* `DisplayArea`: [vms:1] 1× typu piktogram (s implicitní doplňkovou tabulkou) a 1× typu text
+* Řadič VMS (`vms:VmsController`): 1×, tabulka `CzechVmsTable-fixedVms`
+* VMS (`vms:Vms`; `roadsideCantileverMounted`, `vmsType` = `simpleMatrixSign`, `vmsTypeCode` =
+  `variableInformationPanel`): 1× dynamická značka na poloportálu pro celý jízdní pás [vms:1]
+* Činné plochy (`vms:DisplayArea`): [vms:1] 1× typu piktogram (s implicitní dodatkovou tabulkou) a 1× typu text se 3 řádky
+* Poloha: souřadnice, staničení místní komunikace (`roadName`) a úsek sítě Global Network
 
 .static-1-ZPI.xml
 [%collapsible]
@@ -27,17 +30,19 @@ include::{samplesdir}/static-1-ZPI.xml[tags=**]
 
 === Portál liniového řízení
 
+Ukázkový řadič (v tabulce NDIC zatím takový řadič není).
+
 Portál liniového řízení se dvěma PDZ na sloupech podél pozemní komunikace a třemi PDZ pro liniové řízení
 nad komunikací.
 
 image::ex-04.png[Portál liniového řízení,width=600]
 
-* `VmsController` (identifikace): 1×
-* `Vms` (`gantryMounted`):
+* Řadič VMS (`vms:VmsController`): 1×
+* VMS (`vms:Vms`; `gantryMounted`):
 ** 2× proměnná značka vlevo a vpravo na sloupku pro celý jízdní pás [vms:1,5]
 ** 2× dynamická značka na portálu pro řízení v jízdních pruzích [vms:2,4]
 ** 1× dynamická značka na portálu pro celý jízdní pás [vms:3]
-* `DisplayArea`: [vms:1,5] 1× typu piktogram; [vms:2,3,4] 1× typu piktogram (s implicitní doplňkovou
+* Činné plochy (`vms:DisplayArea`): [vms:1,5] 1× typu piktogram; [vms:2,3,4] 1× typu piktogram (s implicitní dodatkovou
   tabulkou)
 
 .static-2-LM.xml
@@ -51,13 +56,15 @@ include::{samplesdir}/static-2-LM.xml[tags=**]
 
 === ZPI teploměr
 
+Ukázkový řadič (v tabulce NDIC zatím takový řadič není).
+
 Proměnná značka podél pozemní komunikace zobrazující teplotu vzduchu a vozovky.
 
 image::ex-05.png[ZPI teploměr,width=600]
 
-* `VmsController` (identifikace): 1×
-* `Vms` (`roadsideMounted`, `vmsTypeCode` = `temperature`): 1× dynamická značka vpravo [vms:1]
-* `DisplayArea`: [vms:1] 1× typu text se 2 řádky (teplota okolí, teplota vozovky)
+* Řadič VMS (`vms:VmsController`): 1×
+* VMS (`vms:Vms`; `roadsideMounted`, `vmsTypeCode` = `temperature`): 1× dynamická značka vpravo [vms:1]
+* Činné plochy (`vms:DisplayArea`): [vms:1] 1× typu text se 2 řádky (teplota okolí, teplota vozovky)
 
 .static-3-meteo.xml
 [%collapsible]
@@ -70,14 +77,16 @@ include::{samplesdir}/static-3-meteo.xml[tags=**]
 
 === Značka s obsazeností parkoviště
 
+Ukázkový řadič (v tabulce NDIC zatím takový řadič není).
+
 Proměnná značka podél pozemní komunikace zobrazující počet volných míst na parkovišti.
 
 image:ex-06.png[Značka s obsazeností parkoviště,width=400]
 image:ex-07.png[Detail značky,width=140]
 
-* `VmsController` (identifikace): 1×
-* `Vms` (`roadsideMounted`, `vmsTypeCode` = `parking`): 1× dynamická značka [vms:1]
-* `DisplayArea`: [vms:1] 1× typu text s 1–2 řádky (bližší a vzdálenější parkoviště)
+* Řadič VMS (`vms:VmsController`): 1×
+* VMS (`vms:Vms`; `roadsideMounted`, `vmsTypeCode` = `parking`): 1× dynamická značka [vms:1]
+* Činné plochy (`vms:DisplayArea`): [vms:1] 1× typu text s 1–2 řádky (bližší a vzdálenější parkoviště)
 
 .static-4-parking.xml
 [%collapsible]
@@ -99,14 +108,16 @@ include::{samplesdir}/static-4-parking_full.xml[tags=**]
 
 === Mobilní vozík
 
-Mobilní VMS na vozíku umístěném na krajnici. Poloha vozíku se uvádí v dynamické publikaci.
+Skutečný řadič z tabulky NDIC (30. 9. 2026): mobilní vozík s plně programovatelnou maticí. Poloha vozíku
+se ve statické publikaci neuvádí, je v dynamické publikaci.
 
 image:ex-08.png[Mobilní vozík,width=180]
-image:ex-09.png[Konfigurace vozíku,width=360]
+image:ex-09.png[Konfigurace vozíku (ilustrační),width=360]
 
-* `VmsController` (identifikace): 1×, tabulka `CzechVmsTable-mobileVms`
-* `Vms` (`trailerMounted`): 1× dynamická značka na vozíku [vms:1]
-* `DisplayArea`: [vms:1] 2× typu piktogram (s implicitní doplňkovou tabulkou)
+* Řadič VMS (`vms:VmsController`): 1×, tabulka `CzechVmsTable-mobileVms`
+* VMS (`vms:Vms`; `trailerMounted`, `vmsType` = `fullMatrixSign`, `dynamicallyConfigurable` = `true`): 1× dynamická
+  značka na vozíku [vms:1]
+* Činné plochy (`vms:DisplayArea`): [vms:1] 1× typu text s 1 řádkem nahoře, 1× typu piktogram a 1× typu text se 4 řádky dole
 
 .static-5-trailer.xml
 [%collapsible]
@@ -116,3 +127,78 @@ image:ex-09.png[Konfigurace vozíku,width=360]
 include::{samplesdir}/static-5-trailer.xml[tags=**]
 ----
 ====
+
+=== Hranolové značky liniového řízení
+
+Skutečný řadič z tabulky NDIC (30. 9. 2026): dvojice hranolových proměnných značek po obou stranách dálnice
+D3 ve směru České Budějovice. Lamelová (hranolová) značka zobrazí otočením lamel jeden ze tří pevných
+symbolů, např. nejvyšší dovolenou rychlost 150{nbsp}km/h (`B20a_150`) nebo konec omezení
+(`B20b_150`).
+
+image::ex-10.png[Dvojice proměnných značek po obou stranách komunikace (ilustrační),width=600]
+
+* Řadič VMS (`vms:VmsController`): 1×, tabulka `CzechVmsTable-fixedVms`
+* VMS (`vms:Vms`; `roadsideMounted`, `vmsType` = `rotatingPrismSign`, `vmsTypeCode` = `variableMessageSign`,
+  `dedicatedUsage` = `laneControlSystem`): 2× značka podél komunikace – vlevo [vms:1] a vpravo [vms:2]
+  (`positionOnCarriageway`)
+* Činné plochy (`vms:DisplayArea`): [vms:1,2] 1× typu piktogram
+
+.static-6-prism.xml
+[%collapsible]
+====
+[source,xml]
+----
+include::{samplesdir}/static-6-prism.xml[tags=**]
+----
+====
+
+=== Další konfigurace řadičů (bez vzorku)
+
+Následující příklady ukazují, jak se popisují další typické konfigurace řadičů. Vzorek k nim není.
+
+==== Informační portál se ZPI a liniovým řízením
+
+image::ex-11.png[Informační portál se ZPI a liniovým řízením,width=600]
+
+* VMS (`vms:Vms`; `gantryMounted`): 2× VMS vlevo a vpravo na sloupku včetně blikačů pro celý jízdní pás [vms:1,5];
+  1× ZPI na portálu pro celý jízdní pás [vms:2]; 2× proměnný signál pro řízení v jízdních pruzích
+  (`laneNumber`) [vms:3,4]
+* Činné plochy (`vms:DisplayArea`): [vms:1,3,4,5] 1× typu piktogram; [vms:2] 1× typu piktogram (s implicitní dodatkovou
+  tabulkou) a 1× typu text
+
+==== Portál liniového řízení se statickými značkami
+
+image::ex-12.png[Portál liniového řízení se statickými značkami,width=600]
+
+* VMS (`vms:Vms`; `gantryMounted`): 2× neproměnná („plechová“) informativní značka vlevo a vpravo podél
+  komunikace [vms:1,7]; 3× PDZ nad osou jízdních pruhů (`laneNumber`) [vms:2,4,6]; 2× výstražná či
+  zákazová PDZ pro celý jízdní pás [vms:3,5]
+* Činné plochy (`vms:DisplayArea`): [vms:1,3,5,7] 1× typu piktogram; [vms:2,4,6] 2× typu piktogram (hlavní značka
+  a vedlejší signál)
+* Neproměnné značky se popisují stejně jako proměnné; v dynamické publikaci mají stále stejný obsah.
+
+==== Portál s plně konfigurovatelnými značkami
+
+image::ex-13.png[Portál s plně konfigurovatelnými značkami,width=600]
+
+* VMS (`vms:Vms`; `gantryMounted`): 2× VMS na portálu pro celý jízdní pás [vms:1,2]
+* Činné plochy (`vms:DisplayArea`): [vms:1,2] 1× typu piktogram; obsah plně konfigurovatelné plochy popisuje dynamická
+  publikace obrázkem (`pictogramDisplayUrl`) a doplňkovým textem.
+
+==== Portál se spojitými směrovými a provozními značkami
+
+image::ex-14.png[Portál se spojitými směrovými značkami,width=600]
+
+* VMS (`vms:Vms`; `gantryMounted`): 2× VMS na portálu pro celý jízdní pás [vms:1,2]
+* Činné plochy (`vms:DisplayArea`): [vms:1,2] 1× typu piktogram; složité značky se popisují piktogramem s obrázkem
+  a předdefinovaným doplňkovým textem.
+
+==== Značky s provozními informacemi podél komunikace
+
+image::ex-15.png[Značky s provozními informacemi podél komunikace,width=400]
+
+* VMS (`vms:Vms`; `roadsideMounted`): 1× PDZ pro celý jízdní pás [vms:1]; 1× lamelová (hranolová) značka
+  s blikači pro celý jízdní pás [vms:2]
+* Činné plochy (`vms:DisplayArea`): [vms:1] 1× typu piktogram (s implicitní dodatkovou tabulkou); [vms:2] 1× typu piktogram
+  (složená značka)
+

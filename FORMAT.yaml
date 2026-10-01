@@ -22,7 +22,7 @@ selection: sel/cz-ndic_d2-vms-table.sel
 samples: samples
 ndic:
   action: review
-  previous: cz-ndic_d2-vms-table-v1.1 (DATEX II 3.3)
+  previous: cz-ndic_d2-vms-table-v1.2 (DATEX II 3.6)
   profiles: []
   profileName: cz-ndic_d2-vms-table
   profileVersion: '1.3'

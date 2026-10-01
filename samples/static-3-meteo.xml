@@ -9,9 +9,9 @@
        x        x
        x      x
  -->
-<d2:payload xmlns:vms="http://datex2.eu/schema/3/vms" xmlns:d2="http://datex2.eu/schema/3/d2Payload" xmlns:loc="http://datex2.eu/schema/3/locationReferencing" xmlns:com="http://datex2.eu/schema/3/common" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" modelBaseVersion="3" xsi:type="vms:VmsTablePublication" xsi:schemaLocation="http://datex2.eu/schema/3/d2Payload ../schema/DATEXII_3_D2Payload.xsd" lang="cs" profileName="cz-ndic_d2-vms-table" profileVersion="1.3">
+<d2:payload xmlns:vms="http://datex2.eu/schema/3/vms" xmlns:d2="http://datex2.eu/schema/3/d2Payload" xmlns:loc="http://datex2.eu/schema/3/locationReferencing" xmlns:com="http://datex2.eu/schema/3/common" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" modelBaseVersion="3" xsi:type="vms:VmsTablePublication" lang="cs" profileName="cz-ndic_d2-vms-table" profileVersion="1.3">
   <com:feedType>x-source:cz-ndic_d2-vms-table-fixed-pull-v3</com:feedType>
-  <com:publicationTime>2021-12-22T10:45:00+01:00</com:publicationTime>
+  <com:publicationTime>2026-09-03T12:05:23+02:00</com:publicationTime>
   <com:publicationCreator>
     <com:country>cz</com:country>
     <com:nationalIdentifier>NDIC</com:nationalIdentifier>
@@ -21,7 +21,7 @@
     <com:informationStatus>real</com:informationStatus>
   </vms:headerInformation>
   <!-- the name of the table could be anything, there could be more tables than 1 -->
-  <vms:vmsControllerTable id="CzechVmsTable-fixedVms" version="1">
+  <vms:vmsControllerTable id="CzechVmsTable-fixedVms" version="260601">
     <!-- NDIC is the publisher -->
     <vms:informationManager>
       <com:country>cz</com:country>
@@ -29,11 +29,11 @@
     </vms:informationManager>
     <!-- one controller per portal/post -->
     <!-- id of the controller is given the official labelling scheme ŘSD ČR PPK R120 -->
-    <vms:vmsController id="0lf3pel9rq" version="1">
+    <vms:vmsController id="0lf3pel9rq" version="260601">
       <!-- meteo is always described as one vms -->
       <vms:numberOfVms>1</vms:numberOfVms>
       <!-- url to the **actual** picture of the whole (portal) structure -->
-      <vms:externalIdentifier>https://rsd.cz/cache/vms/0lf3pel9rq</vms:externalIdentifier>
+      <vms:externalIdentifier>https://mobilitydata.rsd.cz/VMS/0lf3pel9rq</vms:externalIdentifier>
       <vms:vms vmsIndex="1">
         <vms:vms>
           <!-- the vms does not have embedded lanterns -->
@@ -104,7 +104,7 @@
               <loc:linearElement xsi:type="loc:LinearElementByCode">
                 <!-- identification of the base data set GN -->
                 <loc:linearElementReferenceModel>CZ-RSD-GlobalNetwork</loc:linearElementReferenceModel>
-                <loc:linearElementReferenceModelVersion>21.06</loc:linearElementReferenceModelVersion>
+                <loc:linearElementReferenceModelVersion>26.06</loc:linearElementReferenceModelVersion>
                 <!-- GN element containing the location -->
                 <loc:linearElementIdentifier>1457896321</loc:linearElementIdentifier>
               </loc:linearElement>
@@ -117,7 +117,7 @@
           <!-- url to the **actual** picture of the VMS -->
           <!-- if only 1 vms is in a controller unit with no additional information graphic, picture shall be same as on controller level, url different -->
           <vms:imageLink>
-            <com:urlLinkAddress>https://rsd.cz/cache/vms/0lf3pel9rq/01</com:urlLinkAddress>
+            <com:urlLinkAddress>https://mobilitydata.rsd.cz/VMS/0lf3pel9rq/1</com:urlLinkAddress>
           </vms:imageLink>
         </vms:vms>
       </vms:vms>

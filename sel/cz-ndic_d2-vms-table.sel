@@ -42231,7 +42231,7 @@
           <name>rotatingPrismSign</name>
           <definition>A sign implementing fixed messages which are made visible to drivers by electromechanical means e.g. a fixed sign parallel to traffic flow and therefore not legible is rotated to be orthogonal to traffic flow and becomes legible.</definition>
           <order>1</order>
-          <generate>false</generate>
+          <generate>true</generate>
           <ID>EAID_36514226_C184_43cf_87C1_BAEC503E0BC4</ID>
         </D2Litteral>
         <D2Litteral>

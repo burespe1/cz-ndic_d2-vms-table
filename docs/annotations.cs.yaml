@@ -11,9 +11,8 @@
 
 VmsTablePublication:
   feedType:
-    note: Odkaz na zdroj dat v registru národního přístupového bodu (https://registr.dopravniinfo.cz/),
-      např. `x-source:cz-ndic_d2-vms-table-fixed-pull-v3`. Formát určují atributy `profileName`
-      a `profileVersion`.
+    note: Identifikátor zdroje dat, ze kterého zpráva pochází, např.
+      `x-source:cz-ndic_d2-vms-table-fixed-pull-v3`. Formát určují atributy `@profileName` a `@profileVersion`.
   publicationTime:
     note: Čas vytvoření obsahu publikace; nezměnil-li se obsah, zůstává původní.
   publicationCreator:
@@ -30,24 +29,24 @@ VmsControllerTable:
     note: 'Tvůrce obsahu publikace: `country` = `cz`, `nationalIdentifier` = NDIC.'
   vmsController:
     note: Jeden řadič – portál s liniovým řízením či ZPI, mobilní vozík či proměnná značka podél pozemní
-      komunikace. Identifikátor `@id` je jedinečný, `@version` se zvyšuje s každou změnou uvnitř řadiče.
+      komunikace. Identifikátor `@id` je jedinečný, `@version` odpovídá vydání sítě Global Network (např. `260601`).
 VmsController:
   numberOfVms:
     card: 1..1
     note: Počet fyzických VMS na portálu, sloupku…
   externalIdentifier:
     card: 1..1
-    note: URL obrázku základní konfigurace řadiče s vyznačenými plochami (VMS a zobrazovací plochy)
+    note: URL obrázku základní konfigurace řadiče s vyznačenými plochami (VMS a činné plochy)
       a všemi neměnnými částmi značky důležitými pro její pochopení.
   vms:
-    note: Jedna VMS s jednou či více zobrazovacími plochami; `@vmsIndex` od 1, číslováno zleva doprava
+    note: Jedna VMS s jednou či více činnými plochami; `@vmsIndex` od 1, číslováno zleva doprava
       a shora dolů.
 Vms:
   lanternsPresent:
     card: 1..1
     note: '`true`, jsou-li přítomny oddělené blikače či je pro ně vyhrazena část matice VMS.'
   owner:
-    note: Vlastník značky (např. ŘSD ČR, TSK Praha).
+    note: Vlastník značky (např. ŘSD, TSK).
   physicalSupport:
     card: 1..1
     note: Umístění značky.
@@ -62,16 +61,17 @@ Vms:
       vehicleMounted: na vozidle
   vmsType:
     card: 1..1
-    note: Typ zobrazovače.
+    note: Druh VMS podle technologie zobrazení.
     values:
       fullMatrixSign: plně programovatelná matice
-      monochromeGraphic: jednobarevný displej (teplota, parkování)
+      rotatingPrismSign: hranolová značka (pevné symboly zobrazované otočením hranolu)
+      monochromeGraphic: jednobarevná grafická VMS (teplota, parkování)
       simpleMatrixSign: standardní VMS s předdefinovanými možnostmi
       other: plechové značky
   vmsTypeCode:
     card: 1..1
-    note: 'Rozlišení značek NDIC: `mobileVariableMesageSign` (PDZ a PIT na vozíku), `variableInformationPanel`
-      (výstražná PDZ 0–2 a PIT), `variableMesageSign` (PDZ s doplňkovým panelem), `variableDirectionSign`
+    note: 'Rozlišení značek NDIC: `mobileVariableMessageSign` (PDZ a PIT na vozíku), `variableInformationPanel`
+      (výstražná PDZ 0–2 a PIT), `variableMessageSign` (PDZ s dodatkovou tabulkou, též hranolové značky), `variableDirectionSign`
       (proměnná spojitá směrová značka), `temperature` (PIT se dvěma řádky o teplotě), `parking` (PIT
       s obsazeností parkovišť), `metalSign` (neproměnná značka).'
   dynamicallyConfigurable:
@@ -83,19 +83,19 @@ Vms:
     note: 'Jen je-li značka vyhrazena: `laneControlSystem` (zákazové a příkazové značky na portálu),
       `parkingInformation` (navigace na parkoviště), `tunnelManagement` (řízení tunelu a v tunelu).'
   vmsConfiguration:
-    note: Konfigurace zobrazovacích ploch VMS.
+    note: Konfigurace činných ploch VMS.
   vmsLocation:
     note: Poloha VMS (`loc:PointLocation`) včetně doplňkového popisu – souřadnice, staničení, Global Network,
       volitelně OpenLR. U vozíků se neuvádí (lze uvést polohu depa).
   imageLink:
     card: 1..1
-    note: URL aktuálního zobrazení VMS včetně všech zobrazovacích ploch a doplňkových tabulí.
+    note: URL aktuálního zobrazení VMS včetně všech činných ploch a dodatkových tabulek.
 VmsConfiguration:
   numberOfDisplayAreas:
     card: 1..1
-    note: Počet aktivních zobrazovacích ploch VMS.
+    note: Počet aktivních činných ploch VMS.
   displayArea:
-    note: Zobrazovací plocha typu `vms:PictogramDisplayArea` nebo `vms:TextDisplayArea`; `@displayAreaIndex`
+    note: Činná plocha typu `vms:PictogramDisplayArea` nebo `vms:TextDisplayArea`; `@displayAreaIndex`
       od 1, shora dolů a zleva doprava.
 DisplayArea:
   positionXAbsolute:
@@ -115,7 +115,7 @@ TextDisplayArea:
       ne všechny fráze musí mít kódovaný význam.
 PictogramDisplayArea:
   pictogramCodeListIdentifier:
-    note: Identifikátor tabulky kódovaných piktogramů (např. `cz-pictogram-code-list-v1.0`) – zpravidla
+    note: Identifikátor tabulky kódovaných piktogramů (např. `cz-pictogram-code-list-v1.1`) – zpravidla
       mapování významu dopravních značek do DATEX II s doplňkovými informacemi.
   pictogramNumberOfColours:
     note: Počet barev, např. `3` u `simpleMatrixSign` (červená – okraj, bílá – symbol, oranžová – blikače,
@@ -126,7 +126,7 @@ PointLocation:
     note: Souřadnice ETRS89.
   pointAlongLinearElement:
     card: 1..2
-    note: 'Poloha podél komunikace: staničení (číslo komunikace `roadNumber`, vzdálenost od počátku v metrech)
+    note: 'Poloha podél komunikace: staničení (číslo komunikace `roadNumber`, u místních komunikací název `roadName`, vzdálenost od počátku v metrech)
       a nepovinně Global Network (`CZ-RSD-GlobalNetwork`, vzdálenost od počátku úseku v procentech 0–100).'
   openlrPointLocationReference:
     note: Nepovinný popis pomocí OpenLR.
@@ -163,7 +163,7 @@ PointAlongLinearElement:
     note: Směr vůči staničení či kódování úseku Global Network (`aligned`, `opposite`).
   linearElement:
     note: 'Staničení: `LinearElement` s `roadNumber` (u místních komunikací `roadName`); Global Network:
-      `LinearElementByCode` s modelem `CZ-RSD-GlobalNetwork`, verzí sítě a identifikátorem úseku.'
+      `loc:LinearElementByCode` s modelem `CZ-RSD-GlobalNetwork`, verzí sítě a identifikátorem úseku.'
   distanceAlongLinearElement:
     note: '`DistanceFromLinearElementStart` (metry od počátku staničení) nebo `PercentageDistanceAlongLinearElement`
       (procenta délky úseku Global Network od jeho počátku, 0–100).'

@@ -1,0 +1,169 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<d2:payload xmlns:d2="http://datex2.eu/schema/3/d2Payload" xmlns:vms="http://datex2.eu/schema/3/vms" xmlns:loc="http://datex2.eu/schema/3/locationReferencing" xmlns:com="http://datex2.eu/schema/3/common" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="vms:VmsTablePublication" lang="cs" modelBaseVersion="3" profileName="cz-ndic_d2-vms-table" profileVersion="1.3">
+  <!-- tag::header[] -->
+  <com:feedType>x-source:cz-ndic_d2-vms-table-fixed-pull-v3</com:feedType>
+  <com:publicationTime>2026-09-03T12:05:23+02:00</com:publicationTime>
+  <com:publicationCreator>
+    <com:country>cz</com:country>
+    <com:nationalIdentifier>NDIC</com:nationalIdentifier>
+  </com:publicationCreator>
+  <!-- end::header[] -->
+  <vms:headerInformation>
+    <com:confidentiality>noRestriction</com:confidentiality>
+    <com:informationStatus>real</com:informationStatus>
+  </vms:headerInformation>
+  <vms:vmsControllerTable id="CzechVmsTable-fixedVms" version="260601">
+    <vms:informationManager>
+      <com:country>cz</com:country>
+      <com:nationalIdentifier>NDIC</com:nationalIdentifier>
+    </vms:informationManager>
+    <vms:vmsController id="D3-150-cb-p1" version="260601">
+      <vms:numberOfVms>2</vms:numberOfVms>
+      <vms:externalIdentifier>https://mobilitydata.rsd.cz/VMS/D3-150-cb-p1</vms:externalIdentifier>
+      <vms:vms vmsIndex="1">
+        <vms:vms>
+          <!-- tag::vms-props[] -->
+          <vms:lanternsPresent>false</vms:lanternsPresent>
+          <vms:owner>
+            <com:values>
+              <com:value lang="cs">ŘSD</com:value>
+            </com:values>
+          </vms:owner>
+          <vms:physicalSupport>roadsideMounted</vms:physicalSupport>
+          <vms:vmsType>rotatingPrismSign</vms:vmsType>
+          <vms:vmsTypeCode>variableMessageSign</vms:vmsTypeCode>
+          <vms:dynamicallyConfigurable>false</vms:dynamicallyConfigurable>
+          <!-- end::vms-props[] -->
+          <vms:dedicatedUsage>laneControlSystem</vms:dedicatedUsage>
+          <vms:vmsConfiguration>
+            <vms:numberOfDisplayAreas>1</vms:numberOfDisplayAreas>
+            <vms:displayArea displayAreaIndex="1">
+              <vms:displayArea xsi:type="vms:PictogramDisplayArea">
+                <vms:positionXAbsolute>inTheMiddle</vms:positionXAbsolute>
+                <vms:positionYAbsolute>inTheMiddle</vms:positionYAbsolute>
+                <vms:pictogramCodeListIdentifier>cz-pictogram-code-list-v1.1</vms:pictogramCodeListIdentifier>
+                <vms:pictogramNumberOfColours>3</vms:pictogramNumberOfColours>
+              </vms:displayArea>
+            </vms:displayArea>
+          </vms:vmsConfiguration>
+          <vms:vmsLocation xsi:type="loc:PointLocation">
+            <loc:supplementaryPositionalDescription>
+              <loc:positionOnCarriageway>onTheLeft</loc:positionOnCarriageway>
+              <loc:carriageway>
+                <loc:carriageway>mainCarriageway</loc:carriageway>
+                <loc:originalNumberOfLanes>2</loc:originalNumberOfLanes>
+                <loc:lane>
+                  <loc:laneUsage>allLanesCompleteCarriageway</loc:laneUsage>
+                </loc:lane>
+              </loc:carriageway>
+              <loc:roadInformation>
+                <loc:roadDestination>České Budějovice</loc:roadDestination>
+                <loc:roadNumber>D3</loc:roadNumber>
+              </loc:roadInformation>
+            </loc:supplementaryPositionalDescription>
+            <loc:pointByCoordinates>
+              <loc:pointCoordinates>
+                <loc:latitude>49.3658698114936</loc:latitude>
+                <loc:longitude>14.722580112095</loc:longitude>
+              </loc:pointCoordinates>
+            </loc:pointByCoordinates>
+            <loc:pointAlongLinearElement>
+              <loc:directionRelativeAtPoint>aligned</loc:directionRelativeAtPoint>
+              <loc:linearElement>
+                <loc:roadNumber>D3</loc:roadNumber>
+              </loc:linearElement>
+              <loc:distanceAlongLinearElement xsi:type="loc:DistanceFromLinearElementStart">
+                <loc:distanceAlong>84000</loc:distanceAlong>
+              </loc:distanceAlongLinearElement>
+            </loc:pointAlongLinearElement>
+            <loc:pointAlongLinearElement>
+              <loc:directionRelativeAtPoint>aligned</loc:directionRelativeAtPoint>
+              <loc:linearElement xsi:type="loc:LinearElementByCode">
+                <loc:linearElementReferenceModel>CZ-RSD-GlobalNetwork</loc:linearElementReferenceModel>
+                <loc:linearElementReferenceModelVersion>25.12</loc:linearElementReferenceModelVersion>
+                <loc:linearElementIdentifier>3286624</loc:linearElementIdentifier>
+              </loc:linearElement>
+              <loc:distanceAlongLinearElement xsi:type="loc:PercentageDistanceAlongLinearElement">
+                <loc:percentageDistanceAlong>42.43</loc:percentageDistanceAlong>
+              </loc:distanceAlongLinearElement>
+            </loc:pointAlongLinearElement>
+          </vms:vmsLocation>
+          <vms:imageLink>
+            <com:urlLinkAddress>https://mobilitydata.rsd.cz/VMS/D3-150-cb-p1/1</com:urlLinkAddress>
+          </vms:imageLink>
+        </vms:vms>
+      </vms:vms>
+      <vms:vms vmsIndex="2">
+        <vms:vms>
+          <vms:lanternsPresent>false</vms:lanternsPresent>
+          <vms:owner>
+            <com:values>
+              <com:value lang="cs">ŘSD</com:value>
+            </com:values>
+          </vms:owner>
+          <vms:physicalSupport>roadsideMounted</vms:physicalSupport>
+          <vms:vmsType>rotatingPrismSign</vms:vmsType>
+          <vms:vmsTypeCode>variableMessageSign</vms:vmsTypeCode>
+          <vms:dynamicallyConfigurable>false</vms:dynamicallyConfigurable>
+          <vms:dedicatedUsage>laneControlSystem</vms:dedicatedUsage>
+          <vms:vmsConfiguration>
+            <vms:numberOfDisplayAreas>1</vms:numberOfDisplayAreas>
+            <vms:displayArea displayAreaIndex="1">
+              <vms:displayArea xsi:type="vms:PictogramDisplayArea">
+                <vms:positionXAbsolute>inTheMiddle</vms:positionXAbsolute>
+                <vms:positionYAbsolute>inTheMiddle</vms:positionYAbsolute>
+                <vms:pictogramCodeListIdentifier>cz-pictogram-code-list-v1.1</vms:pictogramCodeListIdentifier>
+                <vms:pictogramNumberOfColours>3</vms:pictogramNumberOfColours>
+              </vms:displayArea>
+            </vms:displayArea>
+          </vms:vmsConfiguration>
+          <vms:vmsLocation xsi:type="loc:PointLocation">
+            <loc:supplementaryPositionalDescription>
+              <loc:positionOnCarriageway>onTheRight</loc:positionOnCarriageway>
+              <loc:carriageway>
+                <loc:carriageway>mainCarriageway</loc:carriageway>
+                <loc:originalNumberOfLanes>2</loc:originalNumberOfLanes>
+                <loc:lane>
+                  <loc:laneUsage>allLanesCompleteCarriageway</loc:laneUsage>
+                </loc:lane>
+              </loc:carriageway>
+              <loc:roadInformation>
+                <loc:roadDestination>České Budějovice</loc:roadDestination>
+                <loc:roadNumber>D3</loc:roadNumber>
+              </loc:roadInformation>
+            </loc:supplementaryPositionalDescription>
+            <loc:pointByCoordinates>
+              <loc:pointCoordinates>
+                <loc:latitude>49.3658698114936</loc:latitude>
+                <loc:longitude>14.722580112095</loc:longitude>
+              </loc:pointCoordinates>
+            </loc:pointByCoordinates>
+            <loc:pointAlongLinearElement>
+              <loc:directionRelativeAtPoint>aligned</loc:directionRelativeAtPoint>
+              <loc:linearElement>
+                <loc:roadNumber>D3</loc:roadNumber>
+              </loc:linearElement>
+              <loc:distanceAlongLinearElement xsi:type="loc:DistanceFromLinearElementStart">
+                <loc:distanceAlong>84000</loc:distanceAlong>
+              </loc:distanceAlongLinearElement>
+            </loc:pointAlongLinearElement>
+            <loc:pointAlongLinearElement>
+              <loc:directionRelativeAtPoint>aligned</loc:directionRelativeAtPoint>
+              <loc:linearElement xsi:type="loc:LinearElementByCode">
+                <loc:linearElementReferenceModel>CZ-RSD-GlobalNetwork</loc:linearElementReferenceModel>
+                <loc:linearElementReferenceModelVersion>25.12</loc:linearElementReferenceModelVersion>
+                <loc:linearElementIdentifier>3286624</loc:linearElementIdentifier>
+              </loc:linearElement>
+              <loc:distanceAlongLinearElement xsi:type="loc:PercentageDistanceAlongLinearElement">
+                <loc:percentageDistanceAlong>42.43</loc:percentageDistanceAlong>
+              </loc:distanceAlongLinearElement>
+            </loc:pointAlongLinearElement>
+          </vms:vmsLocation>
+          <vms:imageLink>
+            <com:urlLinkAddress>https://mobilitydata.rsd.cz/VMS/D3-150-cb-p1/1</com:urlLinkAddress>
+          </vms:imageLink>
+        </vms:vms>
+      </vms:vms>
+    </vms:vmsController>
+  </vms:vmsControllerTable>
+</d2:payload>

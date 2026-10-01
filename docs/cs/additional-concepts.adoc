@@ -2,19 +2,22 @@
 
 === Konfigurace VMS
 
-* Každá nepohyblivá VMS obsahuje přímo v elementu `vmsLocation` popis polohy na úrovni ovlivněných
-  jízdních pruhů a popis umístění podél komunikace.
-* Zobrazovací plochy `displayArea` jedné VMS mají stanovenou polohu na ploše VMS pomocí relativní
-  a absolutní polohy.
-* Při trvalé změně konfigurace značky se ve statické publikaci vytvoří nová verze popisu; stará verze
-  zůstává.
-* Dočasné změny konfigurace displejů jedné VMS (např. ráno jiné rozložení než večer) řeší dynamická
-  publikace pomocí `vmsDynamicConfiguration`.
-* Logické elementy (pravda/nepravda) se uvádějí pro obě hodnoty. Nepřítomnost elementu neznamená hodnotu
-  „nepravda“, pouze to, že stav není znám.
-* Elementy s výčty se uvádějí jen tehdy, přinášejí-li informační hodnotu.
+* Popis VMS ve statické publikaci:
+** každá nepohyblivá VMS obsahuje přímo v elementu `vmsLocation` popis polohy na úrovni ovlivněných
+   jízdních pruhů a popis umístění podél komunikace (viz <<polohy>>),
+** činné plochy (elementy `displayArea`) jedné VMS mají stanovenou polohu na ploše VMS pomocí relativní
+   a absolutní polohy (viz <<umisteni-ploch>>).
+* Změny konfigurace:
+** *trvalá* změna konfigurace značky se promítne do popisu řadiče ve statické publikaci (viz
+   <<life-cycle>>),
+** *dočasné* změny rozložení činných ploch jedné VMS (např. ráno jiné rozložení než večer) řeší dynamická
+   publikace elementem `vmsDynamicConfiguration`.
+* Uvádění hodnot:
+** logické elementy (pravda/nepravda) se uvádějí pro obě hodnoty; nepřítomnost elementu neznamená hodnotu
+   „nepravda“, pouze to, že stav není znám,
+** elementy s výčty se uvádějí jen tehdy, přinášejí-li informační hodnotu.
 
-.Konfigurace zobrazovacích ploch (vzorek `static-1-ZPI.xml`)
+.Konfigurace činných ploch (vzorek `static-1-ZPI.xml`)
 [source,xml]
 ----
 include::{samplesdir}/static-1-ZPI.xml[tag=config,indent=0]
@@ -23,9 +26,15 @@ include::{samplesdir}/static-1-ZPI.xml[tag=config,indent=0]
 [[identifikace]]
 === Identifikace VMS a verzování
 
-Řadič (portál, dopravní značka) je identifikován tabulkou (`VmsControllerTable`, identifikátor a verze)
-a vlastním identifikátorem a verzí (`VmsController`). Jednotlivé části řadiče (`Vms`) jsou identifikovány
-indexem v rámci řadiče, jednotlivé zobrazovací plochy (`DisplayArea`) indexem v rámci VMS.
+* Identifikace:
+** řadič VMS (portál, dopravní značka) je identifikován tabulkou řadičů (`vms:VmsControllerTable`,
+   identifikátor a verze) a vlastním identifikátorem a verzí (`vms:VmsController`),
+** jednotlivé VMS (`vms:Vms`) jsou identifikovány indexem v rámci řadiče,
+** jednotlivé činné plochy (`vms:DisplayArea`) indexem v rámci VMS.
+* Verze:
+** verze tabulky i řadičů odpovídá vydání sítě Global Network, ze kterého je popis polohy odvozen, ve tvaru
+   `RRMM01` (např. `260601` pro síť 26.06) – stejně jako verze poloh ve formátu `cz-ndic_d2-pls`,
+** s novým vydáním sítě dostanou novou verzi tabulka i všechny řadiče, i když se nezměnily.
 
 [#fig-vmt-id]
 .Struktura identifikátorů (zdroj: vlastní)
@@ -34,75 +43,82 @@ image::vmt-image2.png[Struktura identifikátorů,width=600,align="center"]
 [cols="1,3,2",options="header"]
 |===
 |Struktura |Identifikace |Příklad
-|`VmsControllerTable` |jednoznačně unikátním identifikátorem a verzí; doporučeno pojmenovat podle typu řadičů v tabulce |`id="CzechVmsTable-mobileVms" version="1"`
-|`VmsController` |jednoznačně unikátním identifikátorem a verzí; doporučeno krátké unikátní id, alternativně štítek podle „R120 Evidenční čísla portálů“, pro vozíky např. `MobileVMS_číslo_typ` (typ `FM` = full matrix, `SM` = simple matrix) |`id="3af3c14996e54" version="1"`
-|`Vms` |indexem v rámci řadiče, vždy od 1 |`vmsIndex="1"`
-|`DisplayArea` |indexem v rámci VMS, vždy od 1 |`displayAreaIndex="1"`
+|tabulka řadičů (`vms:VmsControllerTable`) |jednoznačně unikátním identifikátorem a verzí; pojmenována podle typu řadičů v tabulce |`id="CzechVmsTable-fixedVms" version="260601"`
+|řadič VMS (`vms:VmsController`) |jednoznačně unikátním identifikátorem a verzí; identifikátor je evidenční číslo portálu podle „R120 Evidenční čísla portálů“ nebo jiný stálý jedinečný kód (u řadičů TSK a vozíků GUID) |`id="D08PP0000092" version="260601"`
+|VMS (`vms:Vms`) |indexem v rámci řadiče, vždy od 1 |`vmsIndex="1"`
+|činná plocha (`vms:DisplayArea`) |indexem v rámci VMS, vždy od 1 |`displayAreaIndex="1"`
 |===
 
 [[life-cycle]]
 === Životní cyklus informací ve statické publikaci
 
-==== Životní cyklus řadiče
+==== Životní cyklus řadiče a tabulky
 
-* Nová verze řadiče (stejné id, verze vyšší o jedna) se přidává jen při *trvalé změně* (déle než
-  6 měsíců) konfigurace řadiče, displeje či polohy.
-* Původní verze řadiče zůstávají v tabulce kvůli zpětné kompatibilitě a možnosti odkazovat na staré
-  události.
-* Verze tabulky se těmito změnami nemění.
-
-==== Životní cyklus tabulky
-
-* Nová verze tabulky `VmsControllerTable` vzniká jen ve významných případech, kdy se tabulka čistí od
-  již nepotřebných záznamů.
-* Původní verze tabulky se dále nemění a zůstává dostupná samostatnou publikací.
+* Tabulka obsahuje aktuální popis všech řadičů v jedné verzi, odpovídající vydání sítě Global Network.
+* *Trvalá změna* (déle než 6 měsíců) se promítne do popisu řadiče v tabulce:
+** změna konfigurace řadiče, rozložení činných ploch či polohy – změní se popis řadiče,
+** přidaný řadič se do tabulky doplní,
+** zrušený řadič z tabulky vypadne.
+* S novým vydáním sítě dostanou tabulka i všechny řadiče novou verzi; dynamická publikace pak odkazuje
+  na novou verzi.
 
 ==== Další
 
-* Veškeré krátkodobé změny konfigurace displeje, řazení jízdních pruhů či polohy vozíku jsou součástí
+* Veškeré krátkodobé změny rozložení činných ploch, řazení jízdních pruhů či polohy vozíku jsou součástí
   dynamické publikace (bez nové verze).
 * Platná může být vždy jen jedna verze řadiče; aktivaci a deaktivaci verzí popisuje dynamická publikace.
 
 === Odkazy do dalších tabulek
 
-* Piktogramy či texty zobrazené na VMS lze upřesnit nad rámec DATEX II předdefinovanými tabulkami. Statická
-  publikace je určuje elementy `pictogramCodeListIdentifier` a `textCodeListIdentifier`.
-* Tabulky slouží *pouze k vysvětlení* (jak byl určitý symbol zakódován) či jako překladová tabulka frází
-  při opakujícím se textu na PIT. Vhodnost jejich použití posoudí odběratel.
+* Piktogramy či texty zobrazené na VMS lze upřesnit nad rámec DATEX II předdefinovanými tabulkami; statická
+  publikace je určuje elementy:
+** `pictogramCodeListIdentifier` – tabulka piktogramů,
+** `textCodeListIdentifier` – tabulka textových frází.
+* Účel tabulek:
+** slouží *pouze k vysvětlení* (jak byl určitý symbol zakódován),
+** tabulka frází může sloužit jako překladová tabulka opakujících se textů na PIT,
+** vhodnost jejich použití posoudí odběratel.
 * Tabulky související s tímto profilem:
-** tabulka piktogramů: `cz-pictogram-code-list.xlsx` (součást balíčku specifikace `{schema-uri}.zip`, adresář `res`),
-** tabulka textových frází: není.
+** tabulka piktogramů (identifikátor `cz-pictogram-code-list-v1.1`): `cz-pictogram-code-list.xlsx`
+   (součást balíčku specifikace `{schema-uri}.zip`, adresář `res`); sešit obsahuje listy:
+*** `cz-pictogram-code-list-v1.1` – piktogramy s obrázkem a popisem zakódování; verze 1.1 doplnila
+    symboly lamelové značky 150{nbsp}km/h, `B20a_150` a `B20b_150`,
+*** `enumeration-values` – hodnoty výčtů publikace,
+*** `StaticInfoMapping-examples` – příklady zakódování portálů,
+*** `PIT_TextSymbolMapping` – mapování textových symbolů do HTML,
+** tabulka textových frází (identifikátor `cz-phrase-code-list-v1.0`): v sešitu je jen prázdný list,
+   fráze se nekódují.
 
 === Odkazy na grafické zobrazení
 
-Statická publikace odkazuje na obrázky jednotlivých VMS elementem `Vms/imageLink` a na obrázek celého
-řadiče (portálu) elementem `VmsController/externalIdentifier`. Odkazy
-mají strukturu `baseUrl/customUrl/vms/vmsControllerId/vmsId/displayAreaId`.
+* Statická publikace odkazuje:
+** na obrázek celého řadiče (portálu) elementem `vmsController/externalIdentifier`,
+** na obrázky jednotlivých VMS elementem `vms/imageLink`.
+* Odkazy mají strukturu `https://mobilitydata.rsd.cz/VMS/<identifikátor řadiče>/<index VMS>`; dynamická
+  publikace na ně navazuje odkazy na jednotlivé činné plochy (`…/<index VMS>/<index plochy>`).
 
 ==== Grafické zobrazení řadiče
 
-Grafické zobrazení řadiče (`VmsController/externalIdentifier`, např.
-`https://rsd.cz/cache/vms/3af3c14996e54`) obsahuje:
+Grafické zobrazení řadiče (`vmsController/externalIdentifier`, např.
+`https://mobilitydata.rsd.cz/VMS/D08PP0000092`) obsahuje:
 
-* základní typovou konfiguraci řadiče – statický obrázek s vyznačenou polohou VMS v řadiči a zobrazovacích
+* základní typovou konfiguraci řadiče – statický obrázek s vyznačenou polohou VMS v řadiči a činných
   ploch na VMS,
 * všechny další neměnné části značky důležité pro její pochopení (např. u ZPI teploměru či navigace na
   parkoviště, okolní symboly značky na vozíku),
 * okomentovaný skutečný obrázek či schematické zobrazení.
 
-.Zobrazení řadiče s informacemi o teplotě (zdroj: vlastní, ŘSD R19)
-image::vmt-image3.png[Řadič s teploměrem,width=180]
-image::vmt-image4.png[Řadič s teploměrem – schéma,width=165]
+.Zobrazení řadiče s informacemi o teplotě – skutečnost a schéma (zdroj: vlastní, ŘSD R19)
+image::vmt-ridic-teplomer.png[Řadič s teploměrem – skutečnost (vlevo) a schéma (vpravo),width=380]
 
-.Zobrazení řadiče s liniovým řízením (zdroj: vlastní, ŘSD TP 141)
-image::vmt-image5.png[Řadič s liniovým řízením,width=480]
-image::vmt-image6.png[Řadič s liniovým řízením – schéma,width=480]
+.Zobrazení řadiče s liniovým řízením – skutečnost a schéma (zdroj: vlastní, ŘSD TP 141)
+image::vmt-ridic-linove-rizeni.png[Řadič s liniovým řízením – skutečnost (nahoře) a schéma (dole),width=480]
 
 ==== Grafické zobrazení VMS
 
-Grafické zobrazení VMS (`Vms/imageLink`, např. `https://rsd.cz/cache/vms/3af3c14996e54/01` =
-obrázek 1.{nbsp}VMS na řadiči) obsahuje aktuální zobrazení dané VMS včetně všech zobrazovacích ploch a doplňkových
-informačních tabulí.
+Grafické zobrazení VMS (`vms/imageLink`, např. `https://mobilitydata.rsd.cz/VMS/D08PP0000092/1` =
+obrázek 1.{nbsp}VMS na řadiči) obsahuje aktuální zobrazení dané VMS včetně všech činných ploch a dodatkových
+tabulek.
 
 .Odkaz na obrázek VMS (vzorek `static-1-ZPI.xml`)
 [source,xml]
@@ -113,34 +129,49 @@ include::{samplesdir}/static-1-ZPI.xml[tag=image,indent=0]
 [[polohy]]
 == Popis polohy VMS
 
-* Poloha pevně umístěných značek se popisuje vždy ve *statické publikaci* (zde), v elementu
-  `Vms/vmsLocation` – na úrovni ovlivněných jízdních pruhů i umístění podél komunikace.
-* Poloha vozíků a přenosných značek pro řízení uzavírek se popisuje vždy v *dynamické publikaci*.
+* Kde se poloha popisuje:
+** pevně umístěné značky – vždy ve *statické publikaci* (zde), v elementu `vms/vmsLocation`, na úrovni
+   ovlivněných jízdních pruhů i umístění podél komunikace,
+** vozíky a přenosné značky pro řízení uzavírek – vždy v *dynamické publikaci*.
 * Elementy pro popis řízeného úseku (`managedLocation`, `managedLogicalLocation`) se nepoužívají.
 
 === Změny polohy
 
 * Dočasné změny polohy (změna uspořádání jízdních pruhů, přemístění vozíku, pohybující se vozík) řeší
   zcela dynamická publikace pomocí `vmsLocationOverride`.
-* Při trvalejším umístění vozíku (déle než 6 měsíců) lze kvůli optimalizaci přenášených dat vytvořit novou
-  verzi s aktualizovaným popisem polohy; nakládání s původními verzemi popisuje <<life-cycle>>.
+* Při trvalejším umístění vozíku (déle než 6 měsíců) lze kvůli optimalizaci přenášených dat uvést jeho
+  polohu i ve statické publikaci (viz <<life-cycle>>).
 
+[[umisteni-portal]]
 === Umístění na portálu a platnost vůči jízdnímu pruhu
 
-* Umístění značky (na úrovni VMS) určuje `physicalSupport`: `roadsideMounted` (podél pozemní komunikace na
-  sloupku), `roadsideCantileverMounted` (na poloportálu), `gantryMounted` (na portálu), `trailerMounted`
-  (na vozíku), `centralReservationMounted` (ve středním dělicím pásu), `overheadBridgeMounted` (na
-  křižujícím mostě), `tunnelEntranceMounted` (na vjezdu do tunelu), `vehicleMounted` (na vozidle).
-* Název, číslo a směr silnice se uvádějí v doplňkovém popisu `supplementaryPositionalDescription`
-  (`roadInformation`); v ostatních popisech polohy se uvádějí jen tehdy, jsou-li nezbytné.
-* *Umístění* VMS vůči jízdnímu pásu určuje `supplementaryPositionalDescription/positionOnCarriageway`:
-  `onTheLeft` (na sloupu či portálu vlevo po směru jízdy), `inTheCentre` (na příčníku portálu nad vozovkou,
-  platí i pro poloportály), `onTheRight` (na sloupu či portálu vpravo po směru jízdy).
-* *Platnost* VMS vůči jízdnímu pruhu určuje `supplementaryPositionalDescription/carriageway`:
-  `carriageway` = `mainCarriageway` (hlavní komunikace) a dále buď `lane/laneUsage` =
-  `allLanesCompleteCarriageway` (platí pro celý jízdní pás), nebo `lane/laneNumber` (0 = zpevněná
-  krajnice, 1… jízdní pruhy).
-* Vzájemná poloha VMS na portálu (i jeho sloupech) vyplývá z číslování VMS zleva doprava a shora dolů
+* *Nosná konstrukce* VMS – element `physicalSupport`:
+** `roadsideMounted` – podél pozemní komunikace na sloupku,
+** `roadsideCantileverMounted` – na poloportálu,
+** `gantryMounted` – na portálu,
+** `trailerMounted` – na vozíku,
+** `centralReservationMounted` – ve středním dělicím pásu,
+** `overheadBridgeMounted` – na křižujícím mostě,
+** `tunnelEntranceMounted` – na vjezdu do tunelu,
+** `vehicleMounted` – na vozidle.
+* *Výška* značky nad vozovkou v metrech – element `heightAboveCarriageway`, jen u značek nad vozovkou
+  (portál, poloportál).
+* *Silnice* – doplňkový popis polohy `supplementaryPositionalDescription/roadInformation`:
+** číslo silnice `roadNumber`, u místních komunikací název `roadName`,
+** směr `roadDestination`,
+** v ostatních popisech polohy se tyto údaje uvádějí jen tehdy, jsou-li nezbytné.
+* *Umístění* VMS vůči jízdnímu pásu – `supplementaryPositionalDescription/positionOnCarriageway`:
+** `onTheLeft` – na sloupu či portálu vlevo po směru jízdy,
+** `inTheCentre` – na příčníku portálu nad vozovkou (platí i pro poloportály),
+** `onTheRight` – na sloupu či portálu vpravo po směru jízdy.
+* *Platnost* VMS vůči jízdnímu pruhu – `supplementaryPositionalDescription/carriageway`:
+** `carriageway` = `mainCarriageway` (hlavní komunikace),
+** dále buď `lane/laneUsage` = `allLanesCompleteCarriageway` – platí pro celý jízdní pás,
+** nebo `lane/laneNumber` – číslo pruhu:
+*** 0 = zpevněná krajnice,
+*** 1, 2, … = jízdní pruhy,
+** počet jízdních pruhů jízdního pásu v místě značky udává `originalNumberOfLanes`.
+* *Vzájemná poloha* VMS na portálu (i jeho sloupech) vyplývá z číslování VMS zleva doprava a shora dolů
   (viz <<fig-vmt-lanes>>).
 
 [#fig-vmt-lanes]
@@ -152,13 +183,14 @@ image::vmt-image7.png[Umístění a platnost VMS,width=600,align="center"]
 * Poloha je vždy bodová (`loc:PointLocation`).
 * Souřadnice (ETRS89) jsou vztaženy ke středu jízdního pásu na kolmici k silnici procházející konstrukcí
   VMS.
-* Směr, název a číslo silnice jsou vždy v doplňkovém popisu.
+* Směr, název a číslo silnice jsou vždy v doplňkovém popisu polohy
+  `supplementaryPositionalDescription/roadInformation` (viz <<umisteni-portal>>).
 * Pro popis polohy se používají:
 ** `pointByCoordinates` – souřadnice,
 ** `pointAlongLinearElement` podle staničení – `linearElement` s číslem komunikace (`roadNumber`, u místních
    komunikací bez čísla název `roadName`) a `distanceAlong` od počátku staničení v metrech (stejně jako
    situační formáty a `cz-ndic_d2-pls`),
-** `pointAlongLinearElement` podle sítě Global Network – `linearElement` typu `LinearElementByCode`
+** `pointAlongLinearElement` podle sítě Global Network – `linearElement` typu `loc:LinearElementByCode`
    s `linearElementReferenceModel` = `CZ-RSD-GlobalNetwork`, verzí sítě a identifikátorem úseku,
    vzdálenost od počátku úseku v procentech 0–100,
 ** `openlrPointLocationReference` – nepovinně OpenLR.
@@ -171,20 +203,22 @@ Pro vozíky se poloha ve statické publikaci neuvádí (lze uvést polohu depa).
 include::{samplesdir}/static-1-ZPI.xml[tag=location,indent=0]
 ----
 
-=== Umístění zobrazovacích ploch v rámci VMS
+[[umisteni-ploch]]
+=== Umístění činných ploch v rámci VMS
 
-* Zobrazovací plochy jsou v rámci VMS číslovány shora dolů a zleva doprava.
-* Poloha plochy na VMS se určuje absolutně (`positionXAbsolute`, `positionYAbsolute`) nebo relativně
-  k předchozí ploše (`positionXRelativeToPrevious`, `positionYRelativeToPrevious`).
+* Činné plochy jsou v rámci VMS číslovány shora dolů a zleva doprava.
+* Poloha plochy na VMS se určuje:
+** absolutně – `positionXAbsolute`, `positionYAbsolute`,
+** relativně k předchozí ploše – `positionXRelativeToPrevious`, `positionYRelativeToPrevious`.
 * První plocha je ve VMS ukotvena absolutní polohou, další jsou zpravidla vztaženy k předchozí.
 
 [#fig-vmt-layout]
-.Uspořádání zobrazovacích ploch v rámci VMS
-image::vmt-image8.png[Uspořádání zobrazovacích ploch,width=550,align="center"]
+.Uspořádání činných ploch v rámci VMS
+image::vmt-image8.png[Uspořádání činných ploch,width=550,align="center"]
 
 [cols="1,3,3,3",options="header"]
 |===
-|Rozložení |DisplayArea 1 |DisplayArea 2 |DisplayArea 3
+|Rozložení |Činná plocha 1 |Činná plocha 2 |Činná plocha 3
 |1+4 |`positionXAbsolute`: `onLeft`, `positionYAbsolute`: `inTheMiddle` |`positionXRelativeToPrevious`: `toTheRight`, `positionYAbsolute`: `inTheMiddle` |
 |2+3 |`positionXAbsolute`: `onLeft`, `positionYAbsolute`: `inTheMiddle` |`positionXRelativeToPrevious`: `toTheRight`, `positionYAbsolute`: `inTheMiddle` |`positionXRelativeToPrevious`: `toTheRight`, `positionYAbsolute`: `inTheMiddle`
 |5 |`positionXAbsolute`: `inTheMiddle`, `positionYAbsolute`: `atTop` |`positionYRelativeToPrevious`: `alignedOnTheBottomSide` |

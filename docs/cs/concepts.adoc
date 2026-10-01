@@ -4,44 +4,47 @@ Formát popisuje proměnné dopravní značení (VMS) podél komunikací za úč
 a řízení provozu. Profil má statickou a dynamickou část:
 
 * statická část (tento formát) popisuje základní charakteristiky dopravní značky či portálu včetně
-  konfigurace zobrazovací plochy, polohy a platnosti vůči jízdnímu pruhu,
+  konfigurace činné plochy, polohy a platnosti vůči jízdnímu pruhu,
 * dynamická část (formát `cz-ndic_d2-vms-status`) popisuje právě zobrazované informace na jednotlivých
-  značkách, u mobilních vozíků včetně změny konfigurace zobrazovací plochy a polohy vozíku.
+  značkách, u mobilních vozíků včetně změny konfigurace činné plochy a polohy vozíku.
 
-Formát vychází z DATEX II publikace `VmsTablePublication` <<EN16157-4>>. Používá model DATEX II 3.7.
+Formát vychází z DATEX II publikace `vms:VmsTablePublication` <<EN16157-4>>. Používá model DATEX II 3.7.
+
+include::{kitdir}/shared/cs/vms/pojmy.adoc[]
 
 [[obalka]]
 === Obálka a hlavička publikace
 
 Každá zpráva je dokument DATEX II 3 s kořenovým elementem `d2:payload`. Atribut `xsi:type` kořenového elementu určuje typ
-publikace (zde `vms:VmsTablePublication`), atribut `modelBaseVersion="3"` verzi modelu a atribut `lang` výchozí jazyk
+publikace (zde `vms:VmsTablePublication`), atribut `modelBaseVersion="3"` verzi modelu a atribut `@lang` výchozí jazyk
 textů.
 
 Formát, podle kterého je zpráva sestavena, identifikují výhradně atributy kořenového elementu:
 
 [horizontal]
-`profileName`:: identifikátor formátu bez verze (`cz-ndic_d2-vms-table`),
-`profileVersion`:: verze formátu (`1.3`).
+`@profileName`:: identifikátor formátu bez verze (`cz-ndic_d2-vms-table`),
+`@profileVersion`:: verze formátu (`1.3`).
 
 Hlavička publikace obsahuje:
 
-* `feedType` – identifikátor zdroje dat (distribuce) v registru národního přístupového bodu <<nap>>.
-  Zdroj odkazuje na formát, ve kterém data poskytuje; formát zprávy určují atributy `profileName`
-  a `profileVersion`. Element `feedDescription` se nepoužívá.
-* `publicationTime` – čas vytvoření obsahu publikace. Pokud se obsah od předchozí publikace nezměnil,
-  zůstává čas původní; nový čas vzniká jen se
-  změnou obsahu.
-* `publicationCreator` – poskytovatel publikace: kód země malými písmeny (`cz`) a zkratka
-  poskytovatele (`nationalIdentifier`).
-* `headerInformation` – způsob nakládání s informacemi; NDIC uvádí vždy `confidentiality`
-  = `noRestriction` a `informationStatus` = `real`.
+* `feedType` – identifikátor zdroje dat, ze kterého zpráva pochází:
+** formát zprávy určují atributy `@profileName` a `@profileVersion`, nikoli `feedType`,
+** element `feedDescription` se nepoužívá.
+* `publicationTime` – čas vytvoření obsahu publikace; pokud se obsah od předchozí publikace nezměnil,
+  zůstává čas původní, nový čas vzniká jen se změnou obsahu.
+* `publicationCreator` – poskytovatel publikace:
+** kód země malými písmeny (`cz`),
+** zkratka poskytovatele (`nationalIdentifier`).
+* `headerInformation` – způsob nakládání s informacemi; NDIC uvádí vždy:
+** `confidentiality` = `noRestriction`,
+** `informationStatus` = `real`.
 
 Všechny časové údaje ve zprávě se uvádějí včetně časové zóny.
 
 .Kořenový element a hlavička publikace (vzorek `static-1-ZPI.xml`)
 [source,xml]
 ----
-include::{samplesdir}/static-1-ZPI.xml[lines=10]
+include::{samplesdir}/static-1-ZPI.xml[lines=2]
 include::{samplesdir}/static-1-ZPI.xml[tag=header,indent=2]
   ...
 ----
@@ -51,26 +54,29 @@ include::{samplesdir}/static-1-ZPI.xml[tag=header,indent=2]
 
 Statická publikace má následující strukturu:
 
-* `VmsControllerTable`: tabulka více značek (řadičů) setříděných podle správce či typu,
-* `VmsController`: jeden logický celek – (polo)portál, značka podél pozemní komunikace, vozík,
-* `Vms`: konkrétní indexovaná část portálu (řadiče) včetně polohy,
-* `DisplayArea`: indexovaná zobrazovací plocha VMS typu piktogram či text.
+* tabulka řadičů (`vms:VmsControllerTable`) – řadiče VMS setříděné podle správce či typu,
+* řadič VMS (`vms:VmsController`) – jeden logický celek: portál, poloportál, samostatná značka podél
+  pozemní komunikace nebo vozík,
+* VMS (`vms:Vms`) – konkrétní indexovaná část řadiče (oddělený fyzický prvek) včetně polohy,
+* činná plocha (`vms:DisplayArea`) – indexovaná činná plocha VMS typu piktogram či text.
 
 === Koncept struktury publikace
 
-* Každý portál, poloportál, samostatná značka, informační tabule či vozík je popsán samostatně
-  strukturou `VmsController`.
-* Řadiče jsou ve statické publikaci roztříděny do tří tabulek `vmsControllerTable`:
+* Každý portál, poloportál, samostatná značka, informační tabule či vozík je popsán samostatně jako
+  řadič VMS (`vms:VmsController`, element `vmsController`).
+* Řadiče jsou ve statické publikaci roztříděny do tabulek řadičů (element `vmsControllerTable`); každá
+  tabulka se publikuje samostatně:
 ** `CzechVmsTable-fixedVms` – dynamické stálé značky (podél komunikace, na (polo)portálu),
 ** `CzechVmsTable-mobileVms` – dynamické přenosné značky (mobilní vozíky),
-** `CzechVmsTable-metalSigns` – pevné statické („plechové“) značky.
-* Řadič má právě tolik elementů `vms`, kolik je na portálu oddělených fyzických prvků:
+** `CzechVmsTable-metalSigns` – pevné statické („plechové“) značky; tabulka je vyhrazena a zatím se
+   nepublikuje.
+* Řadič má právě tolik VMS (elementů `vms`), kolik je na portálu oddělených fyzických prvků:
 ** informační portály a vozíky s jedním ZPI a/nebo jednou či více PDZ se modelují jako jedna VMS,
 ** portály liniového řízení se modelují jako více VMS.
-* Každá VMS má tolik zobrazovacích ploch `displayArea`, kolik je na fyzickém prvku logicky oddělených
-  zobrazovacích ploch. Každá plocha popisuje buď piktogram (`PictogramDisplayArea`), nebo textovou
-  informaci (`TextDisplayArea`).
-* Doplňkové tabulky se ve statické publikaci nemodelují; popisuje je přímo dynamická publikace jako
+* Každá VMS má tolik činných ploch (elementů `displayArea`), kolik je na fyzickém prvku logicky oddělených
+  činných ploch. Každá plocha popisuje buď piktogram (`vms:PictogramDisplayArea`), nebo textovou
+  informaci (`vms:TextDisplayArea`).
+* Dodatkové tabulky se ve statické publikaci nemodelují; popisuje je přímo dynamická publikace jako
   součást piktogramu.
 
 .Řadič (vzorek `static-1-ZPI.xml`)
@@ -83,21 +89,28 @@ include::{samplesdir}/static-1-ZPI.xml[tag=controller,indent=0]
 
 === Typy popisovaných značek
 
-Pro třídění se na úrovni VMS rozlišují typy dopravních značek volitelným textem `vmsTypeCode`:
+Druh VMS podle technologie zobrazení určuje element `vmsType`:
+
+* `simpleMatrixSign` – ZPI a PIT s předdefinovanými symboly,
+* `fullMatrixSign` – plně programovatelná matice, např. vozíky,
+* `rotatingPrismSign` – lamelová, tj. hranolová značka, která otočením lamel zobrazí jeden ze tří pevných
+  symbolů,
+* `monochromeGraphic` – jednobarevná grafická VMS, např. teplota,
+* `other` – neproměnné značky.
+
+Pro třídění se na úrovni VMS dále rozlišují typy dopravních značek textem `vmsTypeCode`:
 
 [cols="2,5",options="header"]
 |===
 |Hodnota |Význam
-|`mobileVariableMesageSign` |různé kombinace PDZ a PIT na vozíku podle konfigurace vozíku
+|`mobileVariableMessageSign` |různé kombinace PDZ a PIT na vozíku podle konfigurace vozíku
 |`variableInformationPanel` |zařízení pro provozní informace (ZPI) a proměnné informační tabule (PIT), kombinace výstražné PDZ (0–2) a PIT (1)
-|`variableMesageSign` |jedna proměnná dopravní značka (PDZ) s volitelným doplňkovým panelem – výstražná, příkazová, zákazová…
-|`variableDirectionSign` |proměnná spojitá směrová dopravní značka, panel podél komunikace s informacemi o dalším směřování
+|`variableMessageSign` |jedna proměnná dopravní značka (PDZ) s volitelnou dodatkovou tabulkou – výstražná, příkazová, zákazová…, např. hranolové značky liniového řízení (`vmsType` = `rotatingPrismSign`, `dedicatedUsage` = `laneControlSystem`)
+|`variableDirectionSign` |proměnná spojitá směrová dopravní značka podél komunikace s informacemi o dalším směřování
 |`temperature` |zvláštní typ PIT (text) se dvěma řádky a pevným významem: 1. řádek teplota okolí, 2. řádek teplota vozovky (°C)
 |`parking` |zvláštní typ PIT (text) s jedním či více řádky o obsazenosti parkovišť: 1. řádek bližší, 2. řádek vzdálenější parkoviště
 |`metalSign` |jakákoli neproměnná značka (i směrová, informační, zákazová…); může být i součástí proměnných portálů
 |===
-
-Hodnota `variableMesageSign` se zapisuje s historickým pravopisem „Mesage“.
 
 .Vlastnosti VMS (vzorek `static-1-ZPI.xml`)
 [source,xml]
