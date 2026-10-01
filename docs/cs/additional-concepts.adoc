@@ -192,8 +192,8 @@ image::vmt-image7.png[Umístění a platnost VMS,width=600,align="center"]
    situační formáty a `cz-ndic_d2-pls`),
 ** `pointAlongLinearElement` podle sítě Global Network – `linearElement` typu `loc:LinearElementByCode`
    s `linearElementReferenceModel` = `CZ-RSD-GlobalNetwork`, verzí sítě a identifikátorem úseku,
-   vzdálenost od počátku úseku v procentech 0–100,
-** `openlrPointLocationReference` – nepovinně OpenLR.
+   vzdálenost od počátku úseku v procentech 0–100.
+* OpenLR se pro bodovou polohu VMS nepoužívá.
 
 Pro vozíky se poloha ve statické publikaci neuvádí (lze uvést polohu depa).
 

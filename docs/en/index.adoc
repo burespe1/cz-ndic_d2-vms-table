@@ -11,6 +11,8 @@ include::{kitdir}/shared/en/introduction.adoc[]
 
 include::concepts.adoc[]
 
+include::additional-concepts.adoc[]
+
 include::elements.adoc[]
 
 [appendix]

@@ -1,4 +1,123 @@
 == Concepts
 
-Description of the format concepts: content of the publication, static vs. dynamic part,
-location referencing, record versioning. References: <<EN16157-3>>.
+The format describes variable message signs (VMS) along roads used for providing information and for
+traffic management. The profile has a static and a dynamic part:
+
+* the static part (this format) describes the basic characteristics of a traffic sign or gantry, including
+  the display area configuration, the location and the validity for lanes,
+* the dynamic part (format `cz-ndic_d2-vms-status`) describes the information currently displayed on the
+  individual signs, for mobile trailers including changes of the display area configuration and of the
+  trailer location.
+
+The format is based on the DATEX II publication `vms:VmsTablePublication` <<EN16157-4>>. It uses the
+DATEX II 3.7 model.
+
+include::{kitdir}/shared/en/vms/pojmy.adoc[]
+
+[[obalka]]
+=== Envelope and publication header
+
+Each message is a DATEX II 3 document with the root element `d2:payload`. The `xsi:type` attribute of the root element
+specifies the publication type (here `vms:VmsTablePublication`), the `modelBaseVersion="3"` attribute
+the model version and the `@lang` attribute the default language of texts.
+
+The format the message conforms to is identified solely by attributes of the root element:
+
+[horizontal]
+`@profileName`:: format identifier without version (`cz-ndic_d2-vms-table`),
+`@profileVersion`:: format version (`1.3`).
+
+The publication header contains:
+
+* `feedType` – identifier of the data source the message comes from:
+** the format of the message is identified by the `@profileName` and `@profileVersion` attributes, not by
+   `feedType`,
+** the `feedDescription` element is not used.
+* `publicationTime` – time the publication content was created; if the content has not changed since the
+  previous publication, the original time is kept, a new time is set only when the content changes.
+* `publicationCreator` – publication provider:
+** country code in lower case (`cz`),
+** provider abbreviation (`nationalIdentifier`).
+* `headerInformation` – handling of the information; NDIC always sets:
+** `confidentiality` = `noRestriction`,
+** `informationStatus` = `real`.
+
+All times in the message include the time zone.
+
+.Root element and publication header (sample `static-1-ZPI.xml`)
+[source,xml]
+----
+include::{samplesdir}/static-1-ZPI.xml[lines=2]
+include::{samplesdir}/static-1-ZPI.xml[tag=header,indent=2]
+  ...
+----
+
+[[struktura]]
+=== Structure of the static publication
+
+The static publication has the following structure:
+
+* controller table (`vms:VmsControllerTable`) – VMS controllers grouped by manager or type,
+* VMS controller (`vms:VmsController`) – one logical unit: gantry, cantilever, stand-alone sign along the
+  road or trailer,
+* VMS (`vms:Vms`) – a specific indexed part of the controller (a separate physical element) including its
+  location,
+* display area (`vms:DisplayArea`) – an indexed display area of the VMS showing a pictogram or text.
+
+=== Publication structure concept
+
+* Each gantry, cantilever, stand-alone sign, information panel or trailer is described separately as a VMS
+  controller (`vms:VmsController`, element `vmsController`).
+* In the static publication the controllers are grouped into controller tables (element
+  `vmsControllerTable`); each table is published separately:
+** `CzechVmsTable-fixedVms` – dynamic permanent signs (along the road, on a gantry or cantilever),
+** `CzechVmsTable-mobileVms` – dynamic portable signs (mobile trailers),
+** `CzechVmsTable-metalSigns` – fixed static ("metal") signs; the table is reserved and not yet published.
+* A controller has exactly as many VMS (elements `vms`) as there are separate physical elements on the
+  gantry:
+** information gantries and trailers with one ZPI and/or one or more PDZ are modelled as one VMS,
+** lane control gantries are modelled as several VMS.
+* Each VMS has as many display areas (elements `displayArea`) as there are logically separate display areas
+  on the physical element. Each area describes either a pictogram (`vms:PictogramDisplayArea`) or text
+  information (`vms:TextDisplayArea`).
+* Supplementary panels are not modelled in the static publication; the dynamic publication describes them
+  directly as part of the pictogram.
+
+.VMS controller (sample `static-1-ZPI.xml`)
+[source,xml]
+----
+include::{samplesdir}/static-1-ZPI.xml[tag=controller,indent=0]
+  ...
+</vms:vmsController>
+----
+
+=== Types of described signs
+
+The kind of VMS by display technology is given by the `vmsType` element:
+
+* `simpleMatrixSign` – ZPI and PIT with predefined symbols,
+* `fullMatrixSign` – fully programmable matrix, e.g. trailers,
+* `rotatingPrismSign` – prism sign, which displays one of three fixed symbols by rotating its prisms,
+* `monochromeGraphic` – monochrome graphic VMS, e.g. temperature,
+* `other` – non-variable signs.
+
+For classification, the types of traffic signs are further distinguished at VMS level by the text
+`vmsTypeCode`:
+
+[cols="2,5",options="header"]
+|===
+|Value |Meaning
+|`mobileVariableMessageSign` |various combinations of PDZ and PIT on a trailer according to the trailer configuration
+|`variableInformationPanel` |traffic information devices (ZPI) and variable information panels (PIT), a combination of warning PDZ (0–2) and PIT (1)
+|`variableMessageSign` |one variable traffic sign (PDZ) with an optional supplementary panel – warning, mandatory, prohibitory…, e.g. lane control prism signs (`vmsType` = `rotatingPrismSign`, `dedicatedUsage` = `laneControlSystem`)
+|`variableDirectionSign` |variable continuous direction sign along the road with information on further routes
+|`temperature` |special type of PIT (text) with two lines of fixed meaning: line 1 air temperature, line 2 road surface temperature (°C)
+|`parking` |special type of PIT (text) with one or more lines on car park occupancy: line 1 the nearer, line 2 the farther car park
+|`metalSign` |any non-variable sign (also direction, information, prohibitory…); may also be part of variable gantries
+|===
+
+.VMS properties (sample `static-1-ZPI.xml`)
+[source,xml]
+----
+include::{samplesdir}/static-1-ZPI.xml[tag=vms-props,indent=0]
+----

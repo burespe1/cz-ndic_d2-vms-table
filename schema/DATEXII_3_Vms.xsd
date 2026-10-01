@@ -377,11 +377,6 @@
       <xs:documentation>A versioned VMS controller unit table comprising a number of data records, each record defining the characteristics of a specific deployed variable message sign controller unit.</xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="vmsControllerTableIdentification" type="com:String" minOccurs="0" maxOccurs="1">
-        <xs:annotation>
-          <xs:documentation>An alphanumeric identification for the VMS controller unit table, possibly human readable. </xs:documentation>
-        </xs:annotation>
-      </xs:element>
       <xs:element name="informationManager" type="com:InternationalIdentifier" minOccurs="0">
         <xs:annotation>
           <xs:documentation>Organisation that manages the information content (is responsible for updates of this information) typically the organisation that first made the DATEX II publication of this content.</xs:documentation>

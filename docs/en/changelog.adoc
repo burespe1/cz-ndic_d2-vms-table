@@ -1,5 +1,25 @@
 == Documentation change history
 
+// Documentation revision (MAJOR.MINOR.REVISION). Format changes see CHANGELOG.adoc in the specification.
 === 1.3.0
 
-* first release of the documentation
+* New documentation of the `cz-ndic_d2-vms-table` format version 1.3 (DATEX II 3.7); replaces the
+  documentation of the cz-ndic_d2-vms-table-v1.2 format (DATEX II 3.6).
+* Changes compared to version 1.2 (DATEX II 3.6):
+** The profile selection is carried over to the 3.7 model without changes of cardinalities and narrowed by
+   elements that NDIC does not publish:
+*** description of the VMS point by OpenLR (`openlrPointLocationReference`),
+*** `vmsControllerTableIdentification` (the table is identified by `@id` and version).
+** The identification of the format and of the source in the header and the rule for `publicationTime`
+   change; the `feedDescription` element is not used.
+** NDIC rules narrow cardinalities beyond the schema (element tables): one controller table per
+   publication, one carriageway, one road and one lane statement per VMS.
+** The version of the table and of the controllers corresponds to the Global Network release (e.g.
+   `260601`).
+** The network was previously labelled `GlobalNetwork` and the chainage given as `loc:LinearElementByCode`
+   with the model `mileage`; now `linearElementReferenceModel` = `CZ-RSD-GlobalNetwork` and the chainage by
+   road number (`roadNumber`), for local roads by name (`roadName`) – the same as the situation formats.
+** The VMS type codes `variableMesageSign` and `mobileVariableMesageSign` are now spelled correctly
+   `variableMessageSign` and `mobileVariableMessageSign`; other codes do not change.
+* Origin of the solution: the link to the image of the whole controller (`vmsController/externalIdentifier`)
+  is a concept taken over from the ASFINAG profile.

@@ -1,19 +1,157 @@
-# Ruční texty k tabulkám elementů – jediný ručně psaný vstup tabulek.
-# Klíč = název třídy ve schématu (např. SituationRecord), pod ním element:
-#
-# SituationRecord:
-#   _: Úvodní věta tabulky (nepovinné).
-#   probabilityOfOccurrence:
-#     note: Popis z pohledu NDIC.
-#     card: "1..1"      # pravidlo NDIC nad rámec schématu (tmavě modře)
-#     required: true    # NDIC vždy vyplňuje
-#     values:           # překlad/upřesnění hodnot výčtu jen pro tento element
-#       certain: jistě nastalo
-#   locationReference:
-#     variants: reduced # u elementu s více typy: výčet typů je zúžený profilem (popisek „zúžený výčet – N“);
-#                       # seznam názvů tříd ([A, B]) uvede jen tyto typy
-#
-# _enum:                # překlady hodnot výčtů pro celý formát (přepisují sdílený slovník kitu)
-#   ProbabilityEnum.certain: jistá
-# _unused_types: [LinearLocation]   # třídy, které schéma připouští, ale formát nepoužívá (ve výčtech variant se neuvádějí)
-{}
+# Manual texts for the element tables (English) – the only hand-written input of the tables.
+# Structure as annotations.cs.yaml: ndic = NDIC rule shown after the model definition, card = NDIC cardinality,
+# values = value translations for this element. Kept in sync with annotations.cs.yaml.
+
+VmsTablePublication:
+  feedType:
+    ndic: Identifier of the data source the message comes from, e.g. `x-source:cz-ndic_d2-vms-table-fixed-pull-v3`.
+      The format is identified by the `@profileName` and `@profileVersion` attributes.
+  publicationTime:
+    ndic: Time the publication content was created; if the content has not changed, the original time is kept.
+  publicationCreator:
+    ndic: 'Publication provider: `country` = `cz`, `nationalIdentifier` = provider abbreviation (NDIC).'
+  headerInformation:
+    ndic: Always `confidentiality` = `noRestriction` and `informationStatus` = `real`.
+  vmsControllerTable:
+    card: 1..1
+    ndic: The publication always contains one controller table; tables split by type (see the table `@id`) are published
+      separately.
+VmsControllerTable:
+  informationManager:
+    ndic: 'Creator of the publication content: `country` = `cz`, `nationalIdentifier` = NDIC.'
+  vmsController:
+    ndic: One controller – a gantry with lane control or ZPI, a mobile trailer or a variable sign along the road.
+      The `@id` identifier is unique, `@version` corresponds to the Global Network release (e.g. `260601`).
+VmsController:
+  numberOfVms:
+    card: 1..1
+    ndic: Number of physical VMS on the gantry, post…
+  externalIdentifier:
+    card: 1..1
+    ndic: URL of an image of the basic controller configuration with the areas marked (VMS and display areas) and
+      all fixed parts of the sign important for understanding it.
+  vms:
+    ndic: One VMS with one or more display areas; `@vmsIndex` from 1, numbered from left to right and from top to
+      bottom.
+Vms:
+  lanternsPresent:
+    card: 1..1
+    ndic: '`true` if separate flashers are present or a part of the VMS matrix is reserved for them.'
+  owner:
+    ndic: E.g. ŘSD, TSK.
+  physicalSupport:
+    card: 1..1
+    values:
+      roadsideMounted: along the road on a post
+      roadsideCantileverMounted: on a cantilever
+      gantryMounted: on a gantry
+      trailerMounted: on a trailer
+      centralReservationMounted: in the central reserve
+      overheadBridgeMounted: on an overhead bridge
+      tunnelEntranceMounted: at a tunnel entrance
+      vehicleMounted: on a vehicle
+  vmsType:
+    card: 1..1
+    values:
+      fullMatrixSign: fully programmable matrix
+      rotatingPrismSign: prism sign (fixed symbols displayed by rotating the prisms)
+      monochromeGraphic: monochrome graphic VMS (temperature, parking)
+      simpleMatrixSign: standard VMS with predefined options
+      other: metal signs
+  vmsTypeCode:
+    card: 1..1
+    ndic: 'NDIC sign classification: `mobileVariableMessageSign` (PDZ and PIT on a trailer), `variableInformationPanel`
+      (warning PDZ 0–2 and PIT), `variableMessageSign` (PDZ with a supplementary panel, also prism signs), `variableDirectionSign`
+      (variable continuous direction sign), `temperature` (PIT with two lines on temperature), `parking` (PIT with
+      car park occupancy), `metalSign` (non-variable sign).'
+  dynamicallyConfigurable:
+    card: 1..1
+    ndic: '`true` if the VMS face is dynamically configurable – only for `fullMatrixSign`, otherwise `false`.'
+  heightAboveCarriageway:
+    ndic: Height above the carriageway in metres for signs on a gantry above the road, otherwise omitted.
+  dedicatedUsage:
+    ndic: 'Only if the sign is dedicated: `laneControlSystem` (prohibitory and mandatory signs on a gantry), `parkingInformation`
+      (car park guidance), `tunnelManagement` (tunnel and in-tunnel control).'
+  vmsLocation:
+    ndic: VMS location (`loc:PointLocation`) including the supplementary positional description – coordinates, chainage
+      and Global Network. Not given for trailers (the depot location may be given).
+  imageLink:
+    card: 1..1
+    ndic: URL of the current display of the VMS including all display areas and supplementary panels.
+VmsConfiguration:
+  numberOfDisplayAreas:
+    card: 1..1
+  displayArea:
+    ndic: Display area of type `vms:PictogramDisplayArea` or `vms:TextDisplayArea`; `@displayAreaIndex` from 1,
+      from top to bottom and from left to right.
+DisplayArea:
+  positionXAbsolute:
+    ndic: Horizontal position relative to the VMS edge (`onLeft`, `inTheMiddle`, `onRight`).
+  positionYAbsolute:
+    ndic: Vertical position relative to the VMS edge (`atTop`, `inTheMiddle`, `atBottom`).
+  positionXRelativeToPrevious:
+    ndic: Horizontal position relative to the previous area (`toTheRight`).
+  positionYRelativeToPrevious:
+    ndic: Vertical position relative to the previous area (`alignedOnTheBottomSide`).
+TextDisplayArea:
+  maxNumberOfRows:
+    card: 1..1
+  textCodeListIdentifier:
+    ndic: Identifier of the table of coded phrases displayed on a PIT (e.g. `cz-phrase-code-list-v1.0`); not all
+      phrases need to have a coded meaning.
+PictogramDisplayArea:
+  pictogramCodeListIdentifier:
+    ndic: Identifier of the table of coded pictograms (e.g. `cz-pictogram-code-list-v1.1`) – usually a mapping of
+      the meaning of traffic signs to DATEX II with additional information.
+  pictogramNumberOfColours:
+    ndic: Number of colours, e.g. `3` for `simpleMatrixSign` (red – border, white – symbol, orange – flashers, black
+      background).
+PointLocation:
+  pointByCoordinates:
+    card: 1..1
+    ndic: ETRS89 coordinates.
+  pointAlongLinearElement:
+    card: 1..2
+    ndic: 'Location along the road: chainage (road number `roadNumber`, for local roads the name `roadName`, distance
+      from the start in metres) and optionally Global Network (`CZ-RSD-GlobalNetwork`, distance from the start of
+      the section in percent 0–100).'
+NetworkLocation:
+  supplementaryPositionalDescription:
+    card: 1..1
+    ndic: Supplementary positional description of the VMS at lane level including the road name and direction.
+SupplementaryPositionalDescription:
+  positionOnCarriageway:
+    card: 1..1
+    ndic: 'Position of the VMS on the structure: `onTheLeft` (on a post on the left in the direction of travel),
+      `inTheCentre` (on the cross-beam above the carriageway, also cantilever), `onTheRight` (on a post on the right
+      in the direction of travel).'
+  carriageway:
+    card: 1..1
+    ndic: Carriageway and lane for which the VMS is valid.
+  roadInformation:
+    card: 1..1
+    ndic: Direction (`roadDestination`), name (`roadName`) and number (`roadNumber`) of the road on which the VMS
+      is located.
+Carriageway:
+  carriageway:
+    ndic: Always `mainCarriageway`.
+  originalNumberOfLanes:
+    ndic: Given if known.
+  lane:
+    card: 1..1
+    ndic: '`laneNumber` (1 = first lane from the right, 0 = hard shoulder) if the VMS controls a lane, or `laneUsage`
+      = `allLanesCompleteCarriageway` if it applies to the whole carriageway.'
+PointCoordinates:
+  latitude:
+    ndic: ETRS89 latitude at the intersection of the carriageway centre and the perpendicular to the VMS structure.
+  longitude:
+    ndic: ETRS89 longitude.
+PointAlongLinearElement:
+  directionRelativeAtPoint:
+    ndic: Direction relative to the chainage or to the coding of the Global Network section (`aligned`, `opposite`).
+  linearElement:
+    ndic: 'Chainage: `loc:LinearElement` with `roadNumber` (for local roads `roadName`); Global Network: `loc:LinearElementByCode`
+      with the model `CZ-RSD-GlobalNetwork`, the network version and the section identifier.'
+  distanceAlongLinearElement:
+    ndic: '`loc:DistanceFromLinearElementStart` (metres from the start of the chainage) or `loc:PercentageDistanceAlongLinearElement`
+      (percent of the length of the Global Network section from its start, 0–100).'

@@ -160,45 +160,55 @@ Následující příklady ukazují, jak se popisují další typické konfigurac
 
 image::ex-11.png[Informační portál se ZPI a liniovým řízením,width=600]
 
-* VMS (`vms:Vms`; `gantryMounted`): 2× VMS vlevo a vpravo na sloupku včetně blikačů pro celý jízdní pás [vms:1,5];
-  1× ZPI na portálu pro celý jízdní pás [vms:2]; 2× proměnný signál pro řízení v jízdních pruzích
-  (`laneNumber`) [vms:3,4]
-* Činné plochy (`vms:DisplayArea`): [vms:1,3,4,5] 1× typu piktogram; [vms:2] 1× typu piktogram (s implicitní dodatkovou
-  tabulkou) a 1× typu text
+* Řadič VMS (`vms:VmsController`): 1×
+* VMS (`vms:Vms`; `gantryMounted`):
+** 2× VMS vlevo a vpravo na sloupku včetně blikačů pro celý jízdní pás [vms:1,5]
+** 1× ZPI na portálu pro celý jízdní pás [vms:2]
+** 2× proměnný signál pro řízení v jízdních pruzích (`laneNumber`) [vms:3,4]
+* Činné plochy (`vms:DisplayArea`):
+** [vms:1,3,4,5] 1× typu piktogram
+** [vms:2] 1× typu piktogram (s implicitní dodatkovou tabulkou) a 1× typu text
 
 ==== Portál liniového řízení se statickými značkami
 
 image::ex-12.png[Portál liniového řízení se statickými značkami,width=600]
 
-* VMS (`vms:Vms`; `gantryMounted`): 2× neproměnná („plechová“) informativní značka vlevo a vpravo podél
-  komunikace [vms:1,7]; 3× PDZ nad osou jízdních pruhů (`laneNumber`) [vms:2,4,6]; 2× výstražná či
-  zákazová PDZ pro celý jízdní pás [vms:3,5]
-* Činné plochy (`vms:DisplayArea`): [vms:1,3,5,7] 1× typu piktogram; [vms:2,4,6] 2× typu piktogram (hlavní značka
-  a vedlejší signál)
+* Řadič VMS (`vms:VmsController`): 1×
+* VMS (`vms:Vms`; `gantryMounted`):
+** 2× neproměnná („plechová“) informativní značka vlevo a vpravo podél komunikace [vms:1,7]
+** 3× PDZ nad osou jízdních pruhů (`laneNumber`) [vms:2,4,6]
+** 2× výstražná či zákazová PDZ pro celý jízdní pás [vms:3,5]
+* Činné plochy (`vms:DisplayArea`):
+** [vms:1,3,5,7] 1× typu piktogram
+** [vms:2,4,6] 2× typu piktogram (hlavní značka a vedlejší signál)
 * Neproměnné značky se popisují stejně jako proměnné; v dynamické publikaci mají stále stejný obsah.
 
 ==== Portál s plně konfigurovatelnými značkami
 
 image::ex-13.png[Portál s plně konfigurovatelnými značkami,width=600]
 
+* Řadič VMS (`vms:VmsController`): 1×
 * VMS (`vms:Vms`; `gantryMounted`): 2× VMS na portálu pro celý jízdní pás [vms:1,2]
-* Činné plochy (`vms:DisplayArea`): [vms:1,2] 1× typu piktogram; obsah plně konfigurovatelné plochy popisuje dynamická
-  publikace obrázkem (`pictogramDisplayUrl`) a doplňkovým textem.
+* Činné plochy (`vms:DisplayArea`): [vms:1,2] 1× typu piktogram; obsah plně konfigurovatelné plochy popisuje
+  dynamická publikace obrázkem (`pictogramDisplayUrl`) a doplňkovým textem.
 
 ==== Portál se spojitými směrovými a provozními značkami
 
 image::ex-14.png[Portál se spojitými směrovými značkami,width=600]
 
+* Řadič VMS (`vms:VmsController`): 1×
 * VMS (`vms:Vms`; `gantryMounted`): 2× VMS na portálu pro celý jízdní pás [vms:1,2]
-* Činné plochy (`vms:DisplayArea`): [vms:1,2] 1× typu piktogram; složité značky se popisují piktogramem s obrázkem
-  a předdefinovaným doplňkovým textem.
+* Činné plochy (`vms:DisplayArea`): [vms:1,2] 1× typu piktogram; složité značky se popisují piktogramem
+  s obrázkem a předdefinovaným doplňkovým textem.
 
 ==== Značky s provozními informacemi podél komunikace
 
 image::ex-15.png[Značky s provozními informacemi podél komunikace,width=400]
 
-* VMS (`vms:Vms`; `roadsideMounted`): 1× PDZ pro celý jízdní pás [vms:1]; 1× lamelová (hranolová) značka
-  s blikači pro celý jízdní pás [vms:2]
-* Činné plochy (`vms:DisplayArea`): [vms:1] 1× typu piktogram (s implicitní dodatkovou tabulkou); [vms:2] 1× typu piktogram
-  (složená značka)
-
+* Řadič VMS (`vms:VmsController`): 1×
+* VMS (`vms:Vms`; `roadsideMounted`):
+** 1× PDZ pro celý jízdní pás [vms:1]
+** 1× lamelová (hranolová) značka s blikači pro celý jízdní pás [vms:2]
+* Činné plochy (`vms:DisplayArea`):
+** [vms:1] 1× typu piktogram (s implicitní dodatkovou tabulkou)
+** [vms:2] 1× typu piktogram (složená značka)

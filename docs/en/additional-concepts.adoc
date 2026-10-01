@@ -1,0 +1,232 @@
+== Other important aspects
+
+=== VMS configuration
+
+* Description of a VMS in the static publication:
+** each non-mobile VMS contains directly in the `vmsLocation` element a location description at the level
+   of the affected lanes and a description of its position along the road (see <<polohy>>),
+** the display areas (elements `displayArea`) of a VMS have a defined position on the VMS by relative and
+   absolute positioning (see <<umisteni-ploch>>).
+* Configuration changes:
+** a *permanent* change of the sign configuration is reflected in the controller description in the
+   static publication (see <<life-cycle>>),
+** *temporary* changes of the display area layout of a VMS (e.g. a different layout in the morning and in
+   the evening) are handled by the dynamic publication with the `vmsDynamicConfiguration` element.
+* Stating values:
+** Boolean elements are given for both values; absence of an element does not mean "false", only that the
+   state is not known,
+** elements with enumerations are given only when they carry information.
+
+.Display area configuration (sample `static-1-ZPI.xml`)
+[source,xml]
+----
+include::{samplesdir}/static-1-ZPI.xml[tag=config,indent=0]
+----
+
+[[identifikace]]
+=== VMS identification and versioning
+
+* Identification:
+** a VMS controller (gantry, traffic sign) is identified by the controller table (`vms:VmsControllerTable`,
+   identifier and version) and by its own identifier and version (`vms:VmsController`),
+** individual VMS (`vms:Vms`) are identified by an index within the controller,
+** individual display areas (`vms:DisplayArea`) by an index within the VMS.
+* Versions:
+** the version of the table and of the controllers corresponds to the Global Network release from which the
+   location description is derived, in the form `YYMM01` (e.g. `260601` for network 26.06) – the same as
+   location versions in the `cz-ndic_d2-pls` format,
+** with a new network release the table and all controllers get a new version, even if they have not
+   changed.
+
+[#fig-vmt-id]
+.Structure of identifiers (source: own)
+image::vmt-image2.png[Structure of identifiers,width=600,align="center"]
+
+[cols="1,3,2",options="header"]
+|===
+|Structure |Identification |Example
+|controller table (`vms:VmsControllerTable`) |unique identifier and version; named after the type of controllers in the table |`id="CzechVmsTable-fixedVms" version="260601"`
+|VMS controller (`vms:VmsController`) |unique identifier and version; the identifier is the gantry registration number according to "R120 Gantry registration numbers" or another permanent unique code (GUID for TSK controllers and trailers) |`id="D08PP0000092" version="260601"`
+|VMS (`vms:Vms`) |index within the controller, always from 1 |`vmsIndex="1"`
+|display area (`vms:DisplayArea`) |index within the VMS, always from 1 |`displayAreaIndex="1"`
+|===
+
+[[life-cycle]]
+=== Information life cycle in the static publication
+
+==== Life cycle of a controller and a table
+
+* The table contains the current description of all controllers in one version, corresponding to the
+  Global Network release.
+* A *permanent change* (longer than 6 months) is reflected in the controller description in the table:
+** a change of the controller configuration, display area layout or location – the controller description
+   changes,
+** an added controller is added to the table,
+** a removed controller is dropped from the table.
+* With a new network release the table and all controllers get a new version; the dynamic publication then
+  references the new version.
+
+==== Other
+
+* All short-term changes of the display area layout, lane arrangement or trailer location are part of the
+  dynamic publication (without a new version).
+* Only one version of a controller can be valid at any time; activation and deactivation of versions are
+  described by the dynamic publication.
+
+=== References to other tables
+
+* Pictograms or texts displayed on a VMS can be specified beyond DATEX II by predefined tables; the static
+  publication identifies them by the elements:
+** `pictogramCodeListIdentifier` – pictogram table,
+** `textCodeListIdentifier` – text phrase table.
+* Purpose of the tables:
+** they serve *only for explanation* (how a particular symbol was coded),
+** the phrase table may serve as a translation table for recurring texts on a PIT,
+** whether to use them is up to the subscriber.
+* Tables related to this profile:
+** pictogram table (identifier `cz-pictogram-code-list-v1.1`): `cz-pictogram-code-list.xlsx` (part of
+   the specification package `{schema-uri}.zip`, folder `res`); the workbook contains the sheets:
+*** `cz-pictogram-code-list-v1.1` – pictograms with an image and a description of their coding; version 1.1
+    added the prism sign symbols for 150{nbsp}km/h, `B20a_150` and `B20b_150`,
+*** `enumeration-values` – enumeration values of the publication,
+*** `StaticInfoMapping-examples` – examples of gantry coding,
+*** `PIT_TextSymbolMapping` – mapping of text symbols to HTML,
+** text phrase table (identifier `cz-phrase-code-list-v1.0`): the workbook contains only an empty sheet,
+   phrases are not coded.
+
+=== References to graphical representation
+
+* The static publication references:
+** the image of the whole controller (gantry) by the element `vmsController/externalIdentifier`,
+** the images of individual VMS by the element `vms/imageLink`.
+* The links have the structure `https://mobilitydata.rsd.cz/VMS/<controller identifier>/<VMS index>`; the
+  dynamic publication extends them with links to individual display areas (`…/<VMS index>/<area index>`).
+
+==== Graphical representation of a controller
+
+The graphical representation of a controller (`vmsController/externalIdentifier`, e.g.
+`https://mobilitydata.rsd.cz/VMS/D08PP0000092`) contains:
+
+* the basic type configuration of the controller – a static image showing the position of the VMS in the
+  controller and of the display areas on each VMS,
+* all other fixed parts of the sign important for understanding it (e.g. for a ZPI thermometer or car park
+  guidance, the surrounding symbols of a trailer sign),
+* an annotated photograph or schematic drawing.
+
+.Representation of a controller with temperature information – reality and schema (source: own, ŘSD R19)
+image::vmt-ridic-teplomer.png[Controller with thermometer – reality (left) and schema (right),width=380]
+
+.Representation of a lane control controller – reality and schema (source: own, ŘSD TP 141)
+image::vmt-ridic-linove-rizeni.png[Lane control controller – reality (top) and schema (bottom),width=480]
+
+==== Graphical representation of a VMS
+
+The graphical representation of a VMS (`vms/imageLink`, e.g. `https://mobilitydata.rsd.cz/VMS/D08PP0000092/1`
+= image of the 1st{nbsp}VMS of the controller) contains the current display of that VMS including all display
+areas and supplementary panels.
+
+.Link to the VMS image (sample `static-1-ZPI.xml`)
+[source,xml]
+----
+include::{samplesdir}/static-1-ZPI.xml[tag=image,indent=0]
+----
+
+[[polohy]]
+== VMS location
+
+* Where the location is described:
+** fixed signs – always in the *static publication* (here), in the element `vms/vmsLocation`, at the
+   level of the affected lanes and of the position along the road,
+** trailers and portable signs for closure management – always in the *dynamic publication*.
+* Elements for describing a managed section (`managedLocation`, `managedLogicalLocation`) are not used.
+
+=== Location changes
+
+* Temporary location changes (change of the lane arrangement, relocation of a trailer, a moving trailer)
+  are handled entirely by the dynamic publication with `vmsLocationOverride`.
+* When a trailer stays in place longer (more than 6 months), its location may also be given in the static
+  publication to reduce the transferred data (see <<life-cycle>>).
+
+[[umisteni-portal]]
+=== Position on the gantry and validity for lanes
+
+* *Support structure* of the VMS – element `physicalSupport`:
+** `roadsideMounted` – along the road on a post,
+** `roadsideCantileverMounted` – on a cantilever,
+** `gantryMounted` – on a gantry,
+** `trailerMounted` – on a trailer,
+** `centralReservationMounted` – in the central reserve,
+** `overheadBridgeMounted` – on an overhead bridge,
+** `tunnelEntranceMounted` – at a tunnel entrance,
+** `vehicleMounted` – on a vehicle.
+* *Height* of the sign above the carriageway in metres – element `heightAboveCarriageway`, only for signs
+  above the carriageway (gantry, cantilever).
+* *Road* – supplementary positional description `supplementaryPositionalDescription/roadInformation`:
+** road number `roadNumber`, for local roads the name `roadName`,
+** direction `roadDestination`,
+** in the other location descriptions these data are given only when necessary.
+* *Position* of the VMS relative to the carriageway – `supplementaryPositionalDescription/positionOnCarriageway`:
+** `onTheLeft` – on a post or gantry on the left in the direction of travel,
+** `inTheCentre` – on the gantry cross-beam above the carriageway (also for cantilevers),
+** `onTheRight` – on a post or gantry on the right in the direction of travel.
+* *Validity* of the VMS for lanes – `supplementaryPositionalDescription/carriageway`:
+** `carriageway` = `mainCarriageway` (main road),
+** then either `lane/laneUsage` = `allLanesCompleteCarriageway` – valid for the whole carriageway,
+** or `lane/laneNumber` – lane number:
+*** 0 = hard shoulder,
+*** 1, 2, … = traffic lanes,
+** the number of lanes of the carriageway at the sign is given by `originalNumberOfLanes`.
+* *Relative position* of the VMS on the gantry (including its posts) follows from the numbering of the VMS
+  from left to right and from top to bottom (see <<fig-vmt-lanes>>).
+
+[#fig-vmt-lanes]
+.Position and validity of VMS relative to carriageway and lanes (source: ŘSD, modified)
+image::vmt-image7.png[Position and validity of VMS,width=600,align="center"]
+
+=== Geographic location of a VMS
+
+* The location is always a point (`loc:PointLocation`).
+* The coordinates (ETRS89) refer to the centre of the carriageway on the perpendicular to the road passing
+  through the VMS structure.
+* The direction, name and number of the road are always in the supplementary positional description
+  `supplementaryPositionalDescription/roadInformation` (see <<umisteni-portal>>).
+* The location is described by:
+** `pointByCoordinates` – coordinates,
+** `pointAlongLinearElement` by road chainage – `linearElement` with the road number (`roadNumber`, for
+   unnumbered local roads the name `roadName`) and `distanceAlong` from the start of the chainage in metres
+   (the same as the situation formats and `cz-ndic_d2-pls`),
+** `pointAlongLinearElement` by the Global Network – `linearElement` of type `loc:LinearElementByCode` with
+   `linearElementReferenceModel` = `CZ-RSD-GlobalNetwork`, the network version and the section identifier,
+   distance from the start of the section in percent 0–100.
+* OpenLR is not used for the point location of a VMS.
+
+For trailers the location is not given in the static publication (the depot location may be given).
+
+.VMS location (sample `static-1-ZPI.xml`)
+[source,xml]
+----
+include::{samplesdir}/static-1-ZPI.xml[tag=location,indent=0]
+----
+
+[[umisteni-ploch]]
+=== Position of display areas within a VMS
+
+* Display areas are numbered within a VMS from top to bottom and from left to right.
+* The position of an area on the VMS is given:
+** absolutely – `positionXAbsolute`, `positionYAbsolute`,
+** relative to the previous area – `positionXRelativeToPrevious`, `positionYRelativeToPrevious`.
+* The first area is anchored in the VMS by an absolute position, the others are usually related to the
+  previous one.
+
+[#fig-vmt-layout]
+.Arrangement of display areas within a VMS
+image::vmt-image8.png[Arrangement of display areas,width=550,align="center"]
+
+[cols="1,3,3,3",options="header"]
+|===
+|Layout |Display area 1 |Display area 2 |Display area 3
+|1+4 |`positionXAbsolute`: `onLeft`, `positionYAbsolute`: `inTheMiddle` |`positionXRelativeToPrevious`: `toTheRight`, `positionYAbsolute`: `inTheMiddle` |
+|2+3 |`positionXAbsolute`: `onLeft`, `positionYAbsolute`: `inTheMiddle` |`positionXRelativeToPrevious`: `toTheRight`, `positionYAbsolute`: `inTheMiddle` |`positionXRelativeToPrevious`: `toTheRight`, `positionYAbsolute`: `inTheMiddle`
+|5 |`positionXAbsolute`: `inTheMiddle`, `positionYAbsolute`: `atTop` |`positionYRelativeToPrevious`: `alignedOnTheBottomSide` |
+|6 |`positionXAbsolute`: `onLeft`, `positionYAbsolute`: `atTop` |`positionXRelativeToPrevious`: `toTheRight`, `positionYAbsolute`: `atTop` |`positionXAbsolute`: `inTheMiddle`, `positionYAbsolute`: `atBottom`
+|===

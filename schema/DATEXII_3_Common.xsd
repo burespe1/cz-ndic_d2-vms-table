@@ -19,15 +19,6 @@
       </xs:extension>
     </xs:simpleContent>
   </xs:complexType>
-  <xs:simpleType name="AngleInDegrees">
-    <xs:annotation>
-      <xs:documentation>An integer number representing an angle in whole degrees between 0 and 359.</xs:documentation>
-    </xs:annotation>
-    <xs:restriction base="com:NonNegativeInteger">
-      <xs:minInclusive value="0" />
-      <xs:maxInclusive value="359" />
-    </xs:restriction>
-  </xs:simpleType>
   <xs:simpleType name="Boolean">
     <xs:annotation>
       <xs:documentation>Boolean has the value space required to support the mathematical concept of binary-valued logic: {true, false}. </xs:documentation>
