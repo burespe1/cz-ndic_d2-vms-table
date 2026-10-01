@@ -123,7 +123,7 @@ PictogramDisplayArea:
 PointLocation:
   pointByCoordinates:
     card: 1..1
-    note: Souřadnice WGS-84.
+    note: Souřadnice ETRS89.
   pointAlongLinearElement:
     card: 1..2
     note: 'Poloha podél komunikace: staničení (číslo komunikace `roadNumber`, vzdálenost od počátku v metrech)
@@ -155,9 +155,9 @@ Carriageway:
       `laneUsage` = `allLanesCompleteCarriageway`, platí-li pro celý jízdní pás.'
 PointCoordinates:
   latitude:
-    note: Zeměpisná šířka WGS-84 na průsečíku středu jízdního pásu a kolmice ke konstrukci VMS.
+    note: Zeměpisná šířka ETRS89 na průsečíku středu jízdního pásu a kolmice ke konstrukci VMS.
   longitude:
-    note: Zeměpisná délka WGS-84.
+    note: Zeměpisná délka ETRS89.
 PointAlongLinearElement:
   directionRelativeAtPoint:
     note: Směr vůči staničení či kódování úseku Global Network (`aligned`, `opposite`).

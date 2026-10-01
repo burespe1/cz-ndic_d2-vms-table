@@ -150,7 +150,7 @@ image::vmt-image7.png[Umístění a platnost VMS,width=600,align="center"]
 === Geografický popis polohy VMS
 
 * Poloha je vždy bodová (`loc:PointLocation`).
-* Souřadnice (WGS-84) jsou vztaženy ke středu jízdního pásu na kolmici k silnici procházející konstrukcí
+* Souřadnice (ETRS89) jsou vztaženy ke středu jízdního pásu na kolmici k silnici procházející konstrukcí
   VMS.
 * Směr, název a číslo silnice jsou vždy v doplňkovém popisu.
 * Pro popis polohy se používají:
