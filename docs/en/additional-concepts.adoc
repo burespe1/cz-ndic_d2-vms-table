@@ -99,7 +99,7 @@ image::vmt-image2.png[Structure of identifiers,width=600,align="center"]
 * The static publication references:
 ** the image of the whole controller (gantry) by the element `vmsController/externalIdentifier`,
 ** the images of individual VMS by the element `vms/imageLink`.
-* The links have the structure `https://mobilitydata.rsd.cz/VMS/<controller identifier>/<VMS index>`; the
+* The links have the structure `+https://mobilitydata.rsd.cz/VMS/<controller identifier>/<VMS index>+`; the
   dynamic publication extends them with links to individual display areas (`…/<VMS index>/<area index>`).
 
 ==== Graphical representation of a controller

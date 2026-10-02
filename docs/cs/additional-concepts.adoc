@@ -94,7 +94,7 @@ image::vmt-image2.png[Struktura identifikátorů,width=600,align="center"]
 * Statická publikace odkazuje:
 ** na obrázek celého řadiče (portálu) elementem `vmsController/externalIdentifier`,
 ** na obrázky jednotlivých VMS elementem `vms/imageLink`.
-* Odkazy mají strukturu `https://mobilitydata.rsd.cz/VMS/<identifikátor řadiče>/<index VMS>`; dynamická
+* Odkazy mají strukturu `+https://mobilitydata.rsd.cz/VMS/<identifikátor řadiče>/<index VMS>+`; dynamická
   publikace na ně navazuje odkazy na jednotlivé činné plochy (`…/<index VMS>/<index plochy>`).
 
 ==== Grafické zobrazení řadiče
