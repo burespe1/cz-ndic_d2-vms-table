@@ -1,5 +1,5 @@
 # Metadata formátu – součást vydání specifikace (tag v1.3).
-uri: cz-ndic_d2-vms-table
+id: x-format:cz-ndic_d2-vms-table-v1.3
 version: '1.3'
 name:
   cs: DATEX II VMS Table Publication – Tabulka proměnných dopravních značek
@@ -20,12 +20,6 @@ schema:
   entry: DATEXII_3_D2Payload.xsd
 selection: sel/cz-ndic_d2-vms-table.sel
 samples: samples
-ndic:
-  action: review
-  previous: cz-ndic_d2-vms-table-v1.2 (DATEX II 3.6)
-  profiles: []
-  profileName: cz-ndic_d2-vms-table
-  profileVersion: '1.3'
 maintainer:
   name: Petr Bureš
   company: TamTam Research s.r.o.
